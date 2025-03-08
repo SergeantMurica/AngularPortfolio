@@ -1,0 +1,55 @@
+[
+  {
+    "id": "1",
+    "title": "Getting Started with Angular Standalone Components",
+    "description": "Learn how to use Angular's new standalone components feature to build more modular applications.",
+    "content": "<p>Angular has introduced standalone components as a way to simplify the development experience. In this post, we'll explore how to use them effectively.</p><h2>What are Standalone Components?</h2><p>Standalone components are a new way to define Angular components that don't require inclusion in an NgModule. This means you can create and use components directly, without the additional boilerplate of module declarations.</p><h2>Benefits of Standalone Components</h2><ul><li>Reduced boilerplate code</li><li>Easier to understand component dependencies</li><li>Improved tree-shaking</li><li>Simpler testing</li></ul><p>In future posts, we'll dive deeper into specific use cases and advanced patterns for standalone components.</p>",
+    "imageUrl": "assets/images/blog/angular-standalone.jpg",
+    "date": "2023-03-15",
+    "tags": [
+      "Angular",
+      "TypeScript",
+      "Web Development"
+    ]
+  },
+  {
+    "id": "2",
+    "title": "Building Responsive Layouts with CSS Grid",
+    "description": "A comprehensive guide to creating modern, responsive layouts using CSS Grid.",
+    "content": "<p>CSS Grid has revolutionized how we approach web layouts. In this post, we'll explore practical techniques for building responsive designs.</p><h2>CSS Grid Basics</h2><p>At its core, CSS Grid is a two-dimensional layout system designed for the web. It lets you layout items in rows and columns, and has many features that make building complex layouts straightforward.</p><h2>Creating a Basic Grid</h2><pre><code>.container {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  grid-gap: 20px;\n}</code></pre><h2>Responsive Grid Layouts</h2><p>One of the most powerful features of CSS Grid is the ability to create layouts that respond to different screen sizes without media queries, using functions like minmax() and auto-fit/auto-fill.</p><pre><code>.responsive-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n  grid-gap: 20px;\n}</code></pre><p>This creates a layout that automatically adjusts the number of columns based on the available space, ensuring that each column is at least 250px wide.</p>",
+    "imageUrl": "assets/images/blog/css-grid.jpg",
+    "date": "2023-02-28",
+    "tags": [
+      "CSS",
+      "Web Design",
+      "Responsive Design"
+    ]
+  },
+  {
+    "id": "3",
+    "title": "State Management Patterns in Modern Angular",
+    "description": "Explore different approaches to state management in Angular applications, from services to NgRx.",
+    "content": "<p>State management is a critical aspect of building robust Angular applications. In this post, we'll compare different approaches.</p><h2>Using Services with RxJS</h2><p>The simplest approach to state management in Angular is using services with RxJS BehaviorSubjects:</p><pre><code>@Injectable({\n  providedIn: 'root'\n})\nexport class TodoService {\n  private todos = new BehaviorSubject<Todo[]>([]);\n  todos$ = this.todos.asObservable();\n  \n  addTodo(todo: Todo) {\n    this.todos.next([...this.todos.value, todo]);\n  }\n}</code></pre><h2>Component State</h2><p>For simpler applications, managing state at the component level can be sufficient. This typically involves using component properties and @Input/@Output decorators for parent-child communication.</p><h2>NgRx for Complex Applications</h2><p>For larger applications with complex state requirements, NgRx provides a robust solution based on the Redux pattern. It offers features like:</p><ul><li>Centralized, immutable state</li><li>Time-travel debugging</li><li>Middleware for side effects</li><li>Developer tools integration</li></ul><p>In the next post, we'll walk through setting up NgRx in an Angular application and implementing common patterns.</p>",
+    "imageUrl": "assets/images/blog/state-management.jpg",
+    "date": "2023-01-15",
+    "tags": [
+      "Angular",
+      "RxJS",
+      "NgRx",
+      "State Management"
+    ]
+  },
+  {
+    "id": "4",
+    "title": "Optimizing Angular Performance",
+    "description": "Learn techniques for improving the performance of your Angular applications.",
+    "content": "<p>Performance optimization is crucial for delivering a great user experience. Here are some techniques to make your Angular apps faster.</p><h2>Change Detection Strategies</h2><p>One of the most effective ways to improve performance is to optimize Angular's change detection:</p><pre><code>@Component({\n  // ...\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class MyComponent {\n  // ...\n}</code></pre><p>Using OnPush change detection tells Angular to only check for changes when:</p><ul><li>An @Input property changes</li><li>An event handler is triggered</li><li>Async pipe receives a new value</li><li>Change detection is manually triggered</li></ul><h2>Lazy Loading</h2><p>Lazy loading helps reduce the initial bundle size by loading features on demand:</p><pre><code>// In your route configuration\nconst routes: Routes = [\n  {\n    path: 'feature',\n    loadChildren: () => import('./feature/feature.module')\n      .then(m => m.FeatureModule)\n  }\n];</code></pre><h2>Virtual Scrolling</h2><p>For long lists, virtual scrolling can significantly improve performance by only rendering what's visible in the viewport.</p><h2>Other Techniques</h2><ul><li>Use pure pipes instead of methods in templates</li><li>Implement trackBy for ngFor loops</li><li>Enable production mode</li><li>Use web workers for CPU-intensive tasks</li></ul>",
+    "imageUrl": "assets/images/blog/performance.jpg",
+    "date": "2022-12-10",
+    "tags": [
+      "Angular",
+      "Performance",
+      "Optimization"
+    ]
+  }
+]

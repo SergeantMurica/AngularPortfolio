@@ -1,0 +1,560 @@
+/* You can add global styles to this file, and also import other style files */
+
+@use "tailwindcss";
+
+@use '@angular/material/prebuilt-themes/indigo-pink.css';
+
+
+@theme inline {
+  --color-main: var(--main-color);
+  --color-secondary: var(--secondary-color);
+  --color-headingText: var(--heading-text-color);
+  --color-bodyText: var(--body-text-color);
+  --color-captionText: var(--caption-text-color);
+  --color-activeLink: var(--active-link-color);
+  --color-inactiveLink: var(--inactive-link-color);
+  --color-shadow: var(--shadow-color);
+  --color-border: var(--border-color);
+  --color-container: var(--container-color);
+  --color-background: var(--background-color);
+  --color-shading: var(--shading-color);
+  --color-highlight: var(--highlight-color);
+}
+
+/* ==========================================================================
+   Global Styles
+   ========================================================================== */
+
+/* ==========================================================================
+   Default Theme - Dark Mode
+   ========================================================================== */
+[data-theme="default"].dark {
+  --main-color: #64B5F6; /* Lighter blue */
+  --secondary-color: #90CAF9; /* Even lighter blue */
+  --heading-text-color: #FFFFFF; /* Pure white */
+  --body-text-color: #E0E0E0; /* Light gray */
+  --caption-text-color: #81D4FA; /* Light cyan */
+  --active-link-color: #BBDEFB; /* Very light blue */
+  --inactive-link-color: #90CAF9;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --border-color: #616161; /* Medium gray */
+  --container-color: #212121; /* Darker gray */
+  --background-color: #303030; /* Darkest gray */
+  --shading-color: rgba(0, 0, 0, 0.3);
+  --highlight-color: #B3E5FC; /* Very light blue */
+}
+
+/* ==========================================================================
+   Default Theme - Light Mode
+   ========================================================================== */
+[data-theme="default"] {
+  --main-color: #1E88E5; /* Stronger blue */
+  --secondary-color: #42A5F5; /* Lighter blue */
+  --heading-text-color: #212121; /* Dark gray */
+  --body-text-color: #616161; /* Medium gray */
+  --caption-text-color: #1976D2; /* Darker blue */
+  --active-link-color: #0D47A1; /* Darkest blue */
+  --inactive-link-color: #42A5F5;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --border-color: #BDBDBD; /* Light gray */
+  --container-color: #FFFFFF; /* Pure white */
+  --background-color: #FAFAFA; /* Very light gray */
+  --shading-color: rgba(0, 0, 0, 0.05);
+  --highlight-color: #1565C0; /* Dark blue */
+}
+
+/* ==========================================================================
+   Coding Theme - Dark Mode
+   ========================================================================== */
+[data-theme="coding"].dark {
+  --main-color: #FFCA28; /* Bright yellow */
+  --secondary-color: #FFB300; /* Darker yellow */
+  --heading-text-color: #FFFFFF; /* Pure white */
+  --body-text-color: #EEEEEE; /* Very light gray */
+  --caption-text-color: #FFD54F; /* Light yellow */
+  --active-link-color: #FF8F00; /* Darker orange */
+  --inactive-link-color: #FFCA28;
+  --shadow-color: rgba(0, 0, 0, 0.7);
+  --border-color: #424242; /* Dark gray */
+  --container-color: #212121; /* Darker gray */
+  --background-color: #303030; /* Darkest gray */
+  --shading-color: rgba(0, 0, 0, 0.4);
+  --highlight-color: #FFB74D; /* Light orange */
+}
+
+/* ==========================================================================
+   Coding Theme - Light Mode
+   ========================================================================== */
+[data-theme="coding"] {
+  --main-color: #FFB300; /* Bright yellow */
+  --secondary-color: #FFCA28; /* Lighter yellow */
+  --heading-text-color: #212121; /* Dark gray */
+  --body-text-color: #616161; /* Medium gray */
+  --caption-text-color: #FF8F00; /* Darker orange */
+  --active-link-color: #E65100; /* Darkest orange */
+  --inactive-link-color: #FFCA28;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --border-color: #BDBDBD; /* Light gray */
+  --container-color: #FFFFFF; /* Pure white */
+  --background-color: #FAFAFA; /* Very light gray */
+  --shading-color: rgba(0, 0, 0, 0.05);
+  --highlight-color: #FF6F00; /* Dark orange */
+}
+
+/* ==========================================================================
+   USA Theme - Dark Mode
+   ========================================================================== */
+[data-theme="usa"].dark {
+  --main-color: #EF5350; /* Red */
+  --secondary-color: #2196F3; /* Blue */
+  --heading-text-color: #FFFFFF; /* Pure white */
+  --body-text-color: #E0E0E0; /* Light gray */
+  --caption-text-color: #F44336; /* Red */
+  --active-link-color: #FFEB3B; /* Yellow */
+  --inactive-link-color: #90CAF9; /* Light blue */
+  --shadow-color: rgba(0, 0, 0, 0.7);
+  --border-color: #424242; /* Dark gray */
+  --container-color: #212121; /* Darker gray */
+  --background-color: #303030; /* Darkest gray */
+  --shading-color: rgba(0, 0, 0, 0.4);
+  --highlight-color: #FFCDD2; /* Light red */
+}
+
+/* ==========================================================================
+   USA Theme - Light Mode
+   ========================================================================== */
+[data-theme="usa"] {
+  --main-color: #D32F2F; /* Dark red */
+  --secondary-color: #1976D2; /* Dark blue */
+  --heading-text-color: #212121; /* Dark gray */
+  --body-text-color: #616161; /* Medium gray */
+  --caption-text-color: #D32F2F; /* Dark red */
+  --active-link-color: #FFD700; /* Gold */
+  --inactive-link-color: #1565C0; /* Darkest blue */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --border-color: #BDBDBD; /* Light gray */
+  --container-color: #FFFFFF; /* Pure white */
+  --background-color: #FAFAFA; /* Very light gray */
+  --shading-color: rgba(0, 0, 0, 0.05);
+  --highlight-color: #F44336; /* Red */
+}
+
+/* ==========================================================================
+   Matrix Theme - Dark Mode
+   ========================================================================== */
+[data-theme="matrix"].dark {
+  --main-color: #00FF00; /* Bright green */
+  --secondary-color: #00C853; /* Darker green */
+  --heading-text-color: #00FF00; /* Bright green */
+  --body-text-color: #D4FFD4; /* Very light green */
+  --caption-text-color: #69F0AE; /* Light green */
+  --active-link-color: #00E676; /* Darker green */
+  --inactive-link-color: #00C853;
+  --shadow-color: rgba(0, 255, 0, 0.5);
+  --border-color: #006400; /* Dark green */
+  --container-color: #000000; /* Pure black */
+  --background-color: #1A1A1A; /* Dark gray */
+  --shading-color: rgba(0, 255, 0, 0.2);
+  --highlight-color: #00FF00; /* Bright green */
+}
+
+/* ==========================================================================
+   Matrix Theme
+   ========================================================================== */
+[data-theme="matrix"] {
+  --main-color: #00f940;
+  --secondary-color: #016b01;
+  --heading-text-color: #07e507;
+  --body-text-color: #a0a908;
+  --caption-text-color: #39c203;
+  --active-link-color: #e9f807;
+  --inactive-link-color: #555727;
+  --shadow-color: rgb(54, 255, 0);
+  --border-color: #397502;
+  --container-color: #02260c;
+  --background-color: #024f02;
+  --shading-color: rgba(0, 255, 65, 0.1);
+  --highlight-color: #008f24;
+}
+
+/* ==========================================================================
+   Pirate Theme - Dark Mode
+   ========================================================================== */
+[data-theme="pirate"].dark {
+  --main-color: #FF8F00; /* Dark orange */
+  --secondary-color: #D32F2F; /* Dark red */
+  --heading-text-color: #FFD700; /* Gold */
+  --body-text-color: #EEEEEE; /* Very light gray */
+  --caption-text-color: #D2691E; /* Chocolate */
+  --active-link-color: #FF4500; /* Orange red */
+  --inactive-link-color: #8B0000; /* Dark red */
+  --shadow-color: rgba(0, 0, 0, 0.8);
+  --border-color: #8B4513; /* Saddle brown */
+  --container-color: #1A1A1A; /* Dark gray */
+  --background-color: #212121; /* Darker gray */
+  --shading-color: rgba(139, 69, 19, 0.3);
+  --highlight-color: #FF6F00; /* Dark orange */
+}
+
+/* ==========================================================================
+   Pirate Theme
+   ========================================================================== */
+[data-theme="pirate"] {
+  --main-color: #FF8000;
+  --secondary-color: #D32F2F;
+  --heading-text-color: #FF8000;
+  --body-text-color: #F5F5F5;
+  --caption-text-color: #F4A300;
+  --active-link-color: #FF4500;
+  --inactive-link-color: #8B0000;
+  --shadow-color: rgba(0, 0, 0, 0.8);
+  --border-color: #A52A2A;
+  --container-color: #1A1A1A;
+  --background-color: #2B2B2B;
+  --shading-color: rgba(139, 69, 19, 0.3);
+  --highlight-color: #FF6F00;
+}
+
+/* ==========================================================================
+   Cyberpunk Theme
+   ========================================================================== */
+[data-theme="cyberpunk"] {
+  --main-color: #FF00FF; /* Magenta */
+  --secondary-color: #00FFFF; /* Cyan */
+  --heading-text-color: #3a3a3a; /* White */
+  --body-text-color: #858383; /* Light Gray */
+  --caption-text-color: #FFFF00; /* Yellow */
+  --active-link-color: #FF00FF; /* Magenta */
+  --inactive-link-color: #00FFFF; /* Cyan */
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --border-color: #333333; /* Dark Gray */
+  --container-color: #1A1A1A; /* Darker Gray */
+  --background-color: #ece7e7; /* Black */
+  --shading-color: rgba(0, 0, 0, 0.3);
+  --highlight-color: #FF00FF; /* Magenta */
+}
+
+/* ==========================================================================
+   Cyberpunk Theme - Dark Mode
+   ========================================================================== */
+[data-theme="cyberpunk"].dark {
+  --main-color: #FF00FF; /* Magenta */
+  --secondary-color: #00FFFF; /* Cyan */
+  --heading-text-color: #FFFFFF; /* White */
+  --body-text-color: #E0E0E0; /* Light Gray */
+  --caption-text-color: #FFFF00; /* Yellow */
+  --active-link-color: #FF00FF; /* Magenta */
+  --inactive-link-color: #00FFFF; /* Cyan */
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --border-color: #333333; /* Dark Gray */
+  --container-color: #1A1A1A; /* Darker Gray */
+  --background-color: #383737; /* Black */
+  --shading-color: rgba(0, 0, 0, 0.3);
+  --highlight-color: #FF00FF; /* Magenta */
+}
+
+/* ==========================================================================
+   Minimalist Theme
+   ========================================================================== */
+[data-theme="minimalist"] {
+  --main-color: #333333; /* Dark Gray */
+  --secondary-color: #666666; /* Gray */
+  --heading-text-color: #222222; /* Very Dark Gray */
+  --body-text-color: #555555; /* Dark Gray */
+  --caption-text-color: #777777; /* Gray */
+  --active-link-color: #000000; /* Black */
+  --inactive-link-color: #333333; /* Dark Gray */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --border-color: #DDDDDD; /* Very Light Gray */
+  --container-color: #FFFFFF; /* White */
+  --background-color: #FAFAFA; /* Very Light Gray */
+  --shading-color: rgba(0, 0, 0, 0.05);
+  --highlight-color: #333333; /* Dark Gray */
+}
+
+/* ==========================================================================
+   Minimalist Theme - Dark Mode
+   ========================================================================== */
+[data-theme="minimalist"].dark {
+  --main-color: #EEEEEE; /* Very Light Gray */
+  --secondary-color: #DDDDDD; /* Light Gray */
+  --heading-text-color: #FFFFFF; /* White */
+  --body-text-color: #AAAAAA; /* Medium Gray */
+  --caption-text-color: #BBBBBB; /* Light Gray */
+  --active-link-color: #FFFFFF; /* White */
+  --inactive-link-color: #EEEEEE; /* Very Light Gray */
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --border-color: #444444; /* Dark Gray */
+  --container-color: #222222; /* Very Dark Gray */
+  --background-color: #333333; /* Dark Gray */
+  --shading-color: rgba(0, 0, 0, 0.3);
+  --highlight-color: #EEEEEE; /* Very Light Gray */
+}
+
+/* ==========================================================================
+   Nature Theme
+   ========================================================================== */
+[data-theme="nature"] {
+  --main-color: #689F38; /* Olive Green */
+  --secondary-color: #8BC34A; /* Lime Green */
+  --heading-text-color: #33691E; /* Dark Green */
+  --body-text-color: #43A047; /* Green */
+  --caption-text-color: #7CB342; /* Light Green */
+  --active-link-color: #33691E; /* Dark Green */
+  --inactive-link-color: #689F38; /* Olive Green */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --border-color: #A5D6A7; /* Light Green */
+  --container-color: #FFFFFF; /* White */
+  --background-color: #F1F8E9; /* Very Light Green */
+  --shading-color: rgba(0, 0, 0, 0.05);
+  --highlight-color: #33691E; /* Dark Green */
+}
+
+/* ==========================================================================
+   Nature Theme - Dark Mode
+   ========================================================================== */
+[data-theme="nature"].dark {
+  --main-color: #A5D6A7; /* Light Green */
+  --secondary-color: #8BC34A; /* Lime Green */
+  --heading-text-color: #FFFFFF; /* White */
+  --body-text-color: #A5D6A7; /* Light Green */
+  --caption-text-color: #689F38; /* Olive Green */
+  --active-link-color: #A5D6A7; /* Light Green */
+  --inactive-link-color: #8BC34A; /* Lime Green */
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --border-color: #33691E; /* Dark Green */
+  --container-color: #212121; /* Dark Gray */
+  --background-color: #303030; /* Darkest Gray */
+  --shading-color: rgba(0, 0, 0, 0.3);
+  --highlight-color: #A5D6A7; /* Light Green */
+}
+
+/* ==========================================================================
+   Retro Theme
+   ========================================================================== */
+[data-theme="retro"] {
+  --main-color: #F44336; /* Red */
+  --secondary-color: #E91E63; /* Pink */
+  --heading-text-color: #333333; /* Dark Gray */
+  --body-text-color: #666666; /* Gray */
+  --caption-text-color: #F44336; /* Red */
+  --active-link-color: #E91E63; /* Pink */
+  --inactive-link-color: #F44336; /* Red */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --border-color: #BDBDBD; /* Light Gray */
+  --container-color: #FFFFFF; /* White */
+  --background-color: #FAFAFA; /* Very Light Gray */
+  --shading-color: rgba(0, 0, 0, 0.05);
+  --highlight-color: #F44336; /* Red */
+}
+
+/* ==========================================================================
+   Retro Theme - Dark Mode
+   ========================================================================== */
+[data-theme="retro"].dark {
+  --main-color: #F48FB1; /* Light Pink */
+  --secondary-color: #F06292; /* Pink */
+  --heading-text-color: #FFFFFF; /* White */
+  --body-text-color: #E0E0E0; /* Light Gray */
+  --caption-text-color: #F48FB1; /* Light Pink */
+  --active-link-color: #F06292; /* Pink */
+  --inactive-link-color: #F48FB1; /* Light Pink */
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --border-color: #424242; /* Dark Gray */
+  --container-color: #212121; /* Darker Gray */
+  --background-color: #303030; /* Darkest Gray */
+  --shading-color: rgba(0, 0, 0, 0.3);
+  --highlight-color: #F48FB1; /* Light Pink */
+}
+
+/* ==========================================================================
+   Ocean Theme
+   ========================================================================== */
+[data-theme="ocean"] {
+  --main-color: #29B6F6; /* Light Blue */
+  --secondary-color: #03A9F4; /* Blue */
+  --heading-text-color: #263238; /* Dark Blue Gray */
+  --body-text-color: #37474F; /* Blue Gray */
+  --caption-text-color: #0288D1; /* Darker Blue */
+  --active-link-color: #01579B; /* Darkest Blue */
+  --inactive-link-color: #29B6F6; /* Light Blue */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --border-color: #CFD8DC; /* Light Blue Gray */
+  --container-color: #FFFFFF; /* White */
+  --background-color: #ECEFF1; /* Very Light Blue Gray */
+  --shading-color: rgba(0, 0, 0, 0.05);
+  --highlight-color: #01579B; /* Darkest Blue */
+}
+
+/* ==========================================================================
+   Ocean Theme - Dark Mode
+   ========================================================================== */
+[data-theme="ocean"].dark {
+  --main-color: #4FC3F7; /* Lighter Blue */
+  --secondary-color: #29B6F6; /* Light Blue */
+  --heading-text-color: #FFFFFF; /* White */
+  --body-text-color: #B0BEC5; /* Light Blue Gray */
+  --caption-text-color: #03A9F4; /* Blue */
+  --active-link-color: #4FC3F7; /* Lighter Blue */
+  --inactive-link-color: #29B6F6; /* Light Blue */
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --border-color: #37474F; /* Blue Gray */
+  --container-color: #263238; /* Dark Blue Gray */
+  --background-color: #37474F; /* Blue Gray */
+  --shading-color: rgba(0, 0, 0, 0.3);
+  --highlight-color: #4FC3F7; /* Lighter Blue */
+}
+
+/* ==========================================================================
+   Sunset Theme
+   ========================================================================== */
+[data-theme="sunset"] {
+  --main-color: #FF7043; /* Orange Red */
+  --secondary-color: #FFAB40; /* Orange */
+  --heading-text-color: #3E2723; /* Dark Brown */
+  --body-text-color: #5D4037; /* Brown */
+  --caption-text-color: #E64A19; /* Dark Orange */
+  --active-link-color: #D84315; /* Darker Orange */
+  --inactive-link-color: #FF7043; /* Orange Red */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --border-color: #D7CCC8; /* Light Brown */
+  --container-color: #FFFFFF; /* White */
+  --background-color: #FFF3E0; /* Very Light Orange */
+  --shading-color: rgba(0, 0, 0, 0.05);
+  --highlight-color: #D84315; /* Darker Orange */
+}
+
+/* ==========================================================================
+   Sunset Theme - Dark Mode
+   ========================================================================== */
+[data-theme="sunset"].dark {
+  --main-color: #FFB74D; /* Light Orange */
+  --secondary-color: #FF9800; /* Orange */
+  --heading-text-color: #FFFFFF; /* White */
+  --body-text-color: #E0E0E0; /* Light Gray */
+  --caption-text-color: #FF7043; /* Orange Red */
+  --active-link-color: #FFB74D; /* Light Orange */
+  --inactive-link-color: #FF9800; /* Orange */
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --border-color: #5D4037; /* Brown */
+  --container-color: #3E2723; /* Dark Brown */
+  --background-color: #4E342E; /* Darker Brown */
+  --shading-color: rgba(0, 0, 0, 0.3);
+  --highlight-color: #FFB74D; /* Light Orange */
+}
+
+/* ==========================================================================
+   Serene Theme
+   ========================================================================== */
+[data-theme="serene"] {
+  --main-color: #7986CB; /* Indigo */
+  --secondary-color: #9FA8DA; /* Light Indigo */
+  --heading-text-color: #303F9F; /* Dark Indigo */
+  --body-text-color: #5C6BC0; /* Indigo */
+  --caption-text-color: #3F51B5; /* Darker Indigo */
+  --active-link-color: #283593; /* Darkest Indigo */
+  --inactive-link-color: #7986CB; /* Indigo */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --border-color: #C5CAE9; /* Light Indigo */
+  --container-color: #FFFFFF; /* White */
+  --background-color: #E8EAF6; /* Very Light Indigo */
+  --shading-color: rgba(0, 0, 0, 0.05);
+  --highlight-color: #283593; /* Darkest Indigo */
+}
+
+/* ==========================================================================
+   Serene Theme - Dark Mode
+   ========================================================================== */
+[data-theme="serene"].dark {
+  --main-color: #C5CAE9; /* Light Indigo */
+  --secondary-color: #9FA8DA; /* Light Indigo */
+  --heading-text-color: #FFFFFF; /* White */
+  --body-text-color: #9FA8DA; /* Light Indigo */
+  --caption-text-color: #7986CB; /* Indigo */
+  --active-link-color: #C5CAE9; /* Light Indigo */
+  --inactive-link-color: #9FA8DA; /* Light Indigo */
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --border-color: #303F9F; /* Dark Indigo */
+  --container-color: #283593; /* Darkest Indigo */
+  --background-color: #303F9F; /* Dark Indigo */
+  --shading-color: rgba(0, 0, 0, 0.3);
+  --highlight-color: #C5CAE9; /* Light Indigo */
+}
+
+/* ==========================================================================
+   Autumn Theme
+   ========================================================================== */
+[data-theme="autumn"] {
+  --main-color: #8B4513; /* SaddleBrown – a deep, natural brown */
+  --secondary-color: #A0522D; /* Sienna – a warm, earthy brown */
+  --heading-text-color: #5D2A0B; /* Darker Brown for strong headings */
+  --body-text-color: #6B4226; /* Warm medium brown for comfortable reading */
+  --caption-text-color: #8B5E3C; /* Muted copper tone for captions */
+  --active-link-color: #8B4513; /* Using the main color for active elements */
+  --inactive-link-color: #A0522D; /* Keeping a subtle contrast for inactive links */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --border-color: #D2B48C; /* Tan – a soft neutral border */
+  --container-color: #FAF3E0; /* Light warm beige for a gentle container background */
+  --background-color: #FDF6E3; /* Soft off-white with a warm tone */
+  --shading-color: rgba(0, 0, 0, 0.05);
+  --highlight-color: #8B4513; /* Emphasizing with the deep brown highlight */
+}
+
+/* ==========================================================================
+   Autumn Theme - Dark Mode
+   ========================================================================== */
+[data-theme="autumn"].dark {
+  --main-color: #D2691E; /* A rich, deep chocolate hue */
+  --secondary-color: #A0522D; /* Consistent warm sienna */
+  --heading-text-color: #F5DEB3; /* Wheat – bright enough for contrast */
+  --body-text-color: #E0CDA9; /* Light tan that remains warm and readable */
+  --caption-text-color: #CD853F; /* Peru – a muted, earthy tone */
+  --active-link-color: #D2691E; /* Echoing the rich chocolate for active items */
+  --inactive-link-color: #A0522D; /* Maintaining the warm sienna for inactive states */
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --border-color: #8B4513; /* Dark brown for a definitive border */
+  --container-color: #5D4037; /* Deep brown container for a cozy dark mode feel */
+  --background-color: #3E2723; /* Very dark, authentic brown background */
+  --shading-color: rgba(0, 0, 0, 0.3);
+  --highlight-color: #D2691E; /* Reinforcing the rich autumn tone */
+}
+
+
+/* ==========================================================================
+   Mint Theme
+   ========================================================================== */
+[data-theme="mint"] {
+  --main-color: #26A69A; /* Teal */
+  --secondary-color: #4DB6AC; /* Light Teal */
+  --heading-text-color: #004D40; /* Dark Teal */
+  --body-text-color: #26A69A; /* Teal */
+  --caption-text-color: #00796B; /* Darker Teal */
+  --active-link-color: #004D40; /* Dark Teal */
+  --inactive-link-color: #26A69A; /* Teal */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --border-color: #B2DFDB; /* Light Teal */
+  --container-color: #FFFFFF; /* White */
+  --background-color: #E0F2F1; /* Very Light Teal */
+  --shading-color: rgba(0, 0, 0, 0.05);
+  --highlight-color: #004D40; /* Dark Teal */
+}
+
+/* ==========================================================================
+   Mint Theme - Dark Mode
+   ========================================================================== */
+[data-theme="mint"].dark {
+  --main-color: #B2DFDB; /* Light Teal */
+  --secondary-color: #4DB6AC; /* Light Teal */
+  --heading-text-color: #FFFFFF; /* White */
+  --body-text-color: #B2DFDB; /* Light Teal */
+  --caption-text-color: #26A69A; /* Teal */
+  --active-link-color: #B2DFDB; /* Light Teal */
+  --inactive-link-color: #4DB6AC; /* Light Teal */
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --border-color: #004D40; /* Dark Teal */
+  --container-color: #004D40; /* Dark Teal */
+  --background-color: #00695C; /* Darker Teal */
+  --shading-color: rgba(0, 0, 0, 0.3);
+  --highlight-color: #B2DFDB; /* Light Teal */
+}
+
