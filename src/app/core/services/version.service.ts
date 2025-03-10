@@ -15,11 +15,16 @@ export class VersionService {
   private portfolioVersions: Version[] = [
     {
       id: "v1",
+      name: "Angular Portfolio",
+      url: "https://alexander-angular-portfolio.vercel.app/",
+    },
+    {
+      id: "v2",
       name: "The Portfolio Hub",
       url: "https://alexander-portfolio-hub.vercel.app/",
     },
     {
-      id: "v2",
+      id: "v3",
       name: "Svelte Portfolio",
       url: "https://svelte-portfolio-pied.vercel.app/",
     },
