@@ -38,18 +38,5 @@
       "NgRx",
       "State Management"
     ]
-  },
-  {
-    "id": "4",
-    "title": "Optimizing Angular Performance",
-    "description": "Learn techniques for improving the performance of your Angular applications.",
-    "content": "<p>Performance optimization is crucial for delivering a great user experience. Here are some techniques to make your Angular apps faster.</p><h2>Change Detection Strategies</h2><p>One of the most effective ways to improve performance is to optimize Angular's change detection:</p><pre><code>@Component({\n  // ...\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class MyComponent {\n  // ...\n}</code></pre><p>Using OnPush change detection tells Angular to only check for changes when:</p><ul><li>An @Input property changes</li><li>An event handler is triggered</li><li>Async pipe receives a new value</li><li>Change detection is manually triggered</li></ul><h2>Lazy Loading</h2><p>Lazy loading helps reduce the initial bundle size by loading features on demand:</p><pre><code>// In your route configuration\nconst routes: Routes = [\n  {\n    path: 'feature',\n    loadChildren: () => import('./feature/feature.module')\n      .then(m => m.FeatureModule)\n  }\n];</code></pre><h2>Virtual Scrolling</h2><p>For long lists, virtual scrolling can significantly improve performance by only rendering what's visible in the viewport.</p><h2>Other Techniques</h2><ul><li>Use pure pipes instead of methods in templates</li><li>Implement trackBy for ngFor loops</li><li>Enable production mode</li><li>Use web workers for CPU-intensive tasks</li></ul>",
-    "imageUrl": "assets/images/blog/performance.jpg",
-    "date": "2022-12-10",
-    "tags": [
-      "Angular",
-      "Performance",
-      "Optimization"
-    ]
   }
 ]

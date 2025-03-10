@@ -13,9 +13,45 @@ export interface Version {
 export class VersionService {
   // You'll need to import your actual portfolio versions
   private portfolioVersions: Version[] = [
-    {id: '1', name: 'Version 1', url: 'https://v1.example.com'},
-    {id: '2', name: 'Version 2', url: 'https://v2.example.com'},
-    // Add more versions as needed
+    {
+      id: "v1",
+      name: "The Portfolio Hub",
+      url: "https://alexander-portfolio-hub.vercel.app/",
+    },
+    {
+      id: "v2",
+      name: "Svelte Portfolio",
+      url: "https://svelte-portfolio-pied.vercel.app/",
+    },
+    {
+      id: "v4",
+      name: "Preact Portfolio",
+      url: "https://preact-portfolio-vert.vercel.app/",
+    },
+    {
+      id: "v5",
+      name: "Lit Portfolio",
+      url: "https://alexanders-lit-portfolio.vercel.app/",
+    },
+    {
+      id: "v6",
+      name: "Vue Portfolio",
+      url: "https://alexander-vue-portfolio.vercel.app/",
+    },
+
+
+
+
+    {
+      id: "v7",
+      name: "Next.js Portfolio",
+      url: "https://preact-portfolio-vert.vercel.app/",
+    },
+    {
+      id: "v8",
+      name: "HTML Portfolio",
+      url: "https://preact-portfolio-vert.vercel.app/",
+    },
   ];
 
   private versionState = new BehaviorSubject<{
