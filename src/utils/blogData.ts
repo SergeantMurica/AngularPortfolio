@@ -213,16 +213,5 @@ export default {
 
     ],
 
-    notFound: {
-        id: "not-found",
-        title: "Post Not Found",
-        date: "01/01/2020",
-        author: "Goblins",
-        content: [
-            "We do not know how you made it here, but you got here! So welcome and I hope you find a way out!"
-        ],
-        image: "https://static.canva.com/web/images/e01d35db7c198554ae022ee3216ee495.jpg"
-    }
-
 
 }

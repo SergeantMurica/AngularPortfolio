@@ -10,11 +10,11 @@ import {Subscription} from 'rxjs';
   imports: [CommonModule],
   template: `
     <div>
-      <div class="grid grid-cols-2 gap-2 mb-4">
+      <div class="grid grid-cols-3 gap-2 mb-4">
         <button
           *ngFor="let t of themes"
           (click)="setTheme(t.id)"
-          class="px-3 py-2 rounded text-sm"
+          class="px-2 py-1 rounded text-sm"
           [ngClass]="{
             'bg-main text-background': currentTheme === t.id,
             'bg-container text-main hover:bg-shading': currentTheme !== t.id
@@ -26,7 +26,7 @@ import {Subscription} from 'rxjs';
 
       <div class="flex items-center">
         <button
-          class="flex items-center justify-center bg-container hover:bg-shading text-bodyText px-4 py-2 rounded w-full"
+          class="flex items-center justify-center bg-container hover:bg-shading text-bodyText px-2 py-1 rounded w-full"
           (click)="toggleMode()"
         >
           <ng-container *ngIf="currentMode === 'dark'">

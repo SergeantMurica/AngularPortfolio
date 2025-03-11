@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
@@ -15,17 +15,18 @@ import {StateService} from '../../core/services/state.service';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
-    RouterModule
+    RouterModule,
+    NgOptimizedImage
   ],
   template: `
-    <section class="py-12">
+    <section class="py-12 max-h-[52vh]">
       <div class="max-w-4xl mx-auto text-center" @fadeIn>
         <div class="mb-8">
           <img
-            src="assets/images/profile.jpg"
+            ngSrc="/assets/images/profileImage.png"
             alt="Profile"
             class="w-40 h-40 mx-auto rounded-full object-cover shadow-lg"
-          />
+            height="500" width="500"/>
         </div>
 
         <h1 class="text-4xl md:text-5xl font-bold mb-4">
@@ -37,26 +38,25 @@ import {StateService} from '../../core/services/state.service';
         </h2>
 
         <p class="text-lg mb-8 max-w-2xl mx-auto">
-          I'm a passionate developer with expertise in Angular, TypeScript, and modern web
-          technologies. I love building responsive, user-friendly applications with clean code
-          and optimal performance.
+          {{ aboutMe.start }}
         </p>
 
         <div class="flex justify-center gap-4">
           <a mat-raised-button color="primary" routerLink="/portfolio">View My Work</a>
           <a mat-raised-button routerLink="/contact">Contact Me</a>
+          <a mat-raised-button routerLink="/resume">View My Resume</a>
         </div>
       </div>
     </section>
 
-    <section class="py-8 bg-gray-50 dark:bg-gray-800">
-      <div class="container mx-auto">
-        <h2 class="text-2xl font-bold text-center mb-8">Tech Stack</h2>
+    <section class="py-8 bg-background w-full">
+      <div class="stack-container mx-auto">
+        <h2 class="text-2xl font-bold text-center">Tech Stack</h2>
 
         <div class="ticker-tape-container overflow-hidden">
           <div class="ticker-tape-content flex gap-8 animate-scroll">
             <div *ngFor="let tech of techStack" class="tech-item flex items-center gap-2">
-              <img [src]="tech.logo" [alt]="tech.name" class="w-8 h-8"/>
+              <img [ngSrc]="tech.logo" [alt]="tech.name" class="w-8 h-8" height="32" width="32"/>
               <span>{{ tech.name }}</span>
             </div>
           </div>
@@ -76,6 +76,13 @@ import {StateService} from '../../core/services/state.service';
       100% {
         transform: translateX(-50%);
       }
+    }
+
+    .stack-container {
+      max-width: 1200px;
+      border-radius: 10px;
+      border: 1px solid var(--highlight-color);
+      margin-top: 3rem;
     }
 
     .ticker-tape-container {
@@ -104,21 +111,52 @@ import {StateService} from '../../core/services/state.service';
 export class HomeComponent implements OnInit {
   userInfo = {
     name: 'Alex Developer',
-    title: 'Frontend Engineer',
-    email: 'alex@example.com'
+    title: 'Full Stack Engineer',
+    email: 'castroalexander1995@outlook.com'
+  };
+
+  aboutMe = {
+    title: "About me",
+    start:
+      "I am a dedicated full-stack developer with a diverse background in military service, education, and social media marketing. My passion lies in crafting efficient and innovative web solutions that make a meaningful impact.",
+    mid:
+      "As a mental health advocate and content creator, I’ve channeled my personal experiences to help others navigate life’s challenges, building communities focused on awareness and support. This mission has shaped my commitment to leveraging technology to empower creators and foster positivity.",
+    end:
+      "I aspire to advance my career as a developer by designing tools and platforms that enable content creators to connect, inspire, and bring more joy into the lives of their audiences.",
   };
 
   techStack = [
-    {name: 'Angular', logo: 'assets/logos/angular.png'},
-    {name: 'TypeScript', logo: 'assets/logos/typescript.png'},
-    {name: 'JavaScript', logo: 'assets/logos/javascript.png'},
-    {name: 'HTML5', logo: 'assets/logos/html5.png'},
-    {name: 'CSS3', logo: 'assets/logos/css3.png'},
-    {name: 'Sass', logo: 'assets/logos/sass.png'},
-    {name: 'Node.js', logo: 'assets/logos/nodejs.png'},
-    {name: 'RxJS', logo: 'assets/logos/rxjs.png'},
-    {name: 'Tailwind CSS', logo: 'assets/logos/tailwind.png'},
-    {name: 'Git', logo: 'assets/logos/git.png'},
+    {name: "Angular", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/angular.svg"},
+    {name: "Sass", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/sass.svg"},
+    {name: "Node.js", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/nodejs.svg"},
+    {name: "Tailwind CSS", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/tailwindcss.svg"},
+
+    {name: "SQLite", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/sqlite.svg"},
+    {name: "Express", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/express.svg"},
+    {name: "Python", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/python.svg"},
+    {name: "C++", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/cplusplus.svg"},
+    {name: "Unreal Engine", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/unrealengine.svg"},
+    {name: "Material-UI", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/material-ui.svg"},
+    {name: "DaVinci Resolve", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/davinciresolve.svg"},
+    {name: "React", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/react.svg"},
+    {name: "Firebase", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/firebase.svg"},
+    {name: "Buffer", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/buffer.svg"},
+    {name: "MongoDB", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/mongodb.svg"},
+    {name: "Git", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/git.svg"},
+    {name: "Swift", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/swift.svg"},
+    {name: "GitLab", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/gitlab.svg"},
+    {name: "Node.JS", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/nodejs.svg"},
+    {name: "GitHub", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/github.svg"},
+    {name: "Postgres", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/postgresql.svg"},
+    {name: "CSS", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/css3.svg"},
+    {name: "Hootsuite", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/hootsuite.svg"},
+    {name: "React Native", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/react.svg"},
+    {name: "Vercel", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/vercel.svg"},
+    {name: "HTML", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/html5.svg"},
+    {name: "C", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/c.svg"},
+    {name: "JavaScript", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/javascript.svg"},
+    {name: "TypeScript", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/typescript.svg"},
+    {name: "MySQL", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/mysql.svg"},
   ];
 
   constructor(private stateService: StateService) {

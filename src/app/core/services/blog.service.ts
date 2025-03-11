@@ -2,13 +2,15 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
+import blogData from "../../../utils/blogData";
 
 export interface BlogPost {
   id: string;
   title: string;
-  description: string;
+  excerpt: string;
   content: string;
-  imageUrl: string;
+  author: string;
+  image: string;
   date: string;
   tags: string[];
 }
@@ -21,12 +23,17 @@ export class BlogService {
   }
 
   getBlogPosts(): Observable<BlogPost[]> {
-    return this.http.get<BlogPost[]>('assets/data/blog-posts.json').pipe(
-      catchError(error => {
-        console.error('Error fetching blog posts', error);
-        return of([]);
-      })
-    );
+    const blogs = blogData.blogs.map(blog => ({
+      id: blog.id,
+      title: blog.title,
+      excerpt: blog.excerpt,
+      content: blog.content.join(' '),
+      author: blog.author,
+      image: blog.image,
+      date: blog.date,
+      tags: blog.tags.map(tag => tag.tag)
+    }));
+    return of(blogs);
   }
 
   getBlogPost(id: string): Observable<BlogPost | undefined> {

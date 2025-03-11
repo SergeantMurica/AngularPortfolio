@@ -24,17 +24,18 @@ import {catchError} from 'rxjs/operators';
   template: `
     <div class="container mx-auto py-8">
       <a mat-button color="primary" class="mb-4" routerLink="/blog">
-        <mat-icon>arrow_back</mat-icon>
         Back to Blog
       </a>
 
       <ng-container *ngIf="blogPost$ | async as post; else loading">
         <div class="max-w-3xl mx-auto">
           <img
-            [ngSrc]="post.imageUrl"
+            [ngSrc]="post.image"
+            [height]="48"
+            [width]="48"
             [alt]="post.title"
             class="w-full h-64 object-cover rounded-lg mb-6"
-            fill/>
+          />
 
           <h1 class="text-3xl font-bold mb-2">{{ post.title }}</h1>
 
@@ -50,7 +51,7 @@ import {catchError} from 'rxjs/operators';
           </div>
 
           <div class="prose prose-lg dark:prose-invert max-w-none">
-            <p class="text-lg font-medium mb-4">{{ post.description }}</p>
+            <p class="text-lg font-medium mb-4">{{ post.excerpt }}</p>
             <div [innerHTML]="post.content"></div>
           </div>
         </div>
@@ -85,7 +86,9 @@ export class BlogDetailComponent implements OnInit {
         return this.blogService.getBlogPost(id).pipe(
           catchError(error => {
             console.error('Error fetching blog post', error);
-            this.router.navigate(['/blog']);
+            this.router.navigate(['/blog']).then(() => {
+              window.location.reload();
+            });
             return of(undefined);
           })
         );

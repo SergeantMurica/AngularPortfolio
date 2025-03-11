@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
@@ -17,7 +17,8 @@ import {Observable} from 'rxjs';
     MatCardModule,
     MatButtonModule,
     MatChipsModule,
-    ScrollingModule
+    ScrollingModule,
+    NgOptimizedImage
   ],
   template: `
     <div class="container mx-auto py-8">
@@ -27,7 +28,9 @@ import {Observable} from 'rxjs';
         <ng-container *ngIf="blogPosts$ | async as posts">
           <mat-card *ngFor="let post of posts" class="blog-card">
             <img
-              [src]="post.imageUrl"
+              [ngSrc]="post.image"
+              [height]="48"
+              [width]="48"
               [alt]="post.title"
               class="w-full h-48 object-cover"
             />
@@ -38,7 +41,7 @@ import {Observable} from 'rxjs';
             </mat-card-header>
 
             <mat-card-content class="mt-2">
-              <p>{{ post.description }}</p>
+              <p>{{ post.excerpt }}</p>
             </mat-card-content>
 
             <div class="flex flex-wrap gap-2 px-4 my-2">

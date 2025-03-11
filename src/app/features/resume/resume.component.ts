@@ -158,60 +158,129 @@ interface Education {
 export class ResumeComponent {
   experience: Experience[] = [
     {
-      title: 'Senior Frontend Developer',
-      company: 'Tech Innovations Inc.',
-      period: '2020 - Present',
-      location: 'San Francisco, CA',
-      description: 'Led the frontend development team in building modern web applications using Angular. Implemented state management solutions with RxJS and NgRx. Mentored junior developers and established best practices.',
-      technologies: ['Angular', 'TypeScript', 'RxJS', 'NgRx', 'Material UI', 'Jest']
+      title: 'Freelance Developer',
+      company: 'Self-Employed',
+      period: '2024 - Present',
+      location: 'Phoenix, AZ',
+      description: 'Aided companies in building scalable and efficient web applications. Range of projects from personal websites to a complex nonprofit platforms.',
+      technologies: ['React', 'TypeScript', 'Material UI', 'Jest']
     },
     {
-      title: 'Frontend Developer',
-      company: 'Digital Solutions LLC',
-      period: '2018 - 2020',
-      location: 'Austin, TX',
-      description: 'Developed responsive web applications using Angular. Collaborated with backend developers to integrate RESTful APIs. Implemented unit tests and end-to-end tests.',
-      technologies: ['Angular', 'JavaScript', 'SCSS', 'Karma', 'Jasmine']
+      title: 'The Pantheon Dev',
+      company: 'Self-Employed',
+      period: '2025 - Present',
+      location: 'Phoenix, AZ',
+      description: 'Currently developing a new UI library for React based projects, called Maia UI, and a productivity application called ChronosBoard.',
+      technologies: ['React', 'TypeScript', 'SCSS', 'PostCSS', 'Tailwind CSS', 'Jest', 'Storybook', 'UI Testing', 'UI/UX Design']
     },
     {
-      title: 'Web Developer',
-      company: 'Creative Web Agency',
-      period: '2016 - 2018',
-      location: 'Seattle, WA',
-      description: 'Built interactive websites for clients across various industries. Focused on responsive design and cross-browser compatibility.',
-      technologies: ['HTML5', 'CSS3', 'JavaScript', 'jQuery', 'Bootstrap']
+      title: 'Content Creator',
+      company: 'Self-Employed',
+      period: '04/2021 - 12/2024',
+      location: 'Phoenix, AZ',
+      description: 'Produce content focused on mental health awareness and suicide prevention through gaming and entertainment.',
+      technologies: ['DaVinci Resolve', 'TikTok', 'YouTube', 'Instagram']
+    },
+    {
+      title: 'Sales Professional',
+      company: 'Bell Honda',
+      period: '10/2023 - 11/2023',
+      location: 'Phoenix, AZ',
+      description: 'Engaged with clients to identify needs and deliver desired vehicle.',
+      technologies: ['Salesforce', 'CRM', 'Customer Service']
+    },
+    {
+      title: 'Director of Development',
+      company: 'Veterans Gaming & Mental Health Mission',
+      period: '01/2023 - 05/2023',
+      location: 'Online',
+      description: 'Led development initiatives to secure funding and build partnerships for the organization. While also designing and implemented strategic plans to enhance organizational growth.',
+      technologies: ['Project Management', 'Fundraising', 'Partnership Building']
+    },
+    {
+      title: 'Volunteer Director of Marketing',
+      company: 'Veterans Gaming & Mental Health Mission',
+      period: '05/2022 - 01/2023',
+      location: 'Online',
+      description: 'Managed SEO strategies, advertising campaigns, and the social media presence of the organization. Also redesigned the organization\'s website to improve functionality and engagement.',
+      technologies: ['SEO', 'Advertising', 'Social Media Management', 'Website Design']
+    },
+    {
+      title: 'Social Media Coordinator',
+      company: 'Liftable Media',
+      period: '03/2022 - 8/2022',
+      location: 'Phoenix, AZ',
+      description: 'Planned, created, and scheduled content for Western Journal News. Helped establish a successful workflow for producing and distributing news shorts on TikTok, YouTube, and Instagram Reels.',
+      technologies: ['Content Creation', 'Social Media Management', 'Video Editing']
+    },
+    {
+      title: 'Substitute Teacher',
+      company: 'DVUSD',
+      period: '09/2020 - 05/2021',
+      location: 'Phoenix, AZ',
+      description: 'Delivered flexible teaching solutions, adapting to various educational levels and classroom needs.',
+      technologies: ['Teaching', 'Classroom Management', 'Curriculum Development']
+    },
+    {
+      title: 'Volunteer Moderator/Event Manager',
+      company: 'JoshDub’s Discord Server',
+      period: '11/2019 - 05/2022',
+      location: 'Online',
+      description: 'Assisted in managing a +90,000 member online community, while organizing events.',
+      technologies: ['Community Management', 'Event Planning', 'Discord Bot Development']
+    },
+    {
+      title: 'Combat Medic/Healthcare Specialist',
+      company: 'U.S. Army',
+      period: '06/2013 - 06/2018',
+      location: 'Fort Bragg, NC & Vicenza, Italy',
+      description: 'Delivered emergency medical treatment and primary care for soldiers in both normal, and critical situations.',
+      technologies: ['EMT', 'Military Medicine', 'Combat Support']
     }
   ];
 
   education: Education[] = [
     {
-      degree: 'Master of Computer Science',
-      institution: 'University of Technology',
-      period: '2014 - 2016',
-      location: 'Boston, MA',
-      description: 'Specialized in Human-Computer Interaction and Web Technologies. Thesis on "Optimization Techniques for Single Page Applications".'
-    },
+      degree: 'Associates of Applied Science in Web Development',
+      institution: 'Glendale Community College',
+      period: '09/2024 - Present',
+      location: 'Glendale, AZ',
+      description: 'Started with basic HTML, CSS, and JavaScript Knowledge, the desire to learn how to code professionally, quickly turned into a passion more than anything else.'
+    }
+    ,
     {
-      degree: 'Bachelor of Science in Computer Science',
-      institution: 'State University',
-      period: '2010 - 2014',
-      location: 'Chicago, IL',
-      description: 'Major in Computer Science with a minor in Graphic Design. Graduated with honors.'
+      degree: 'Bachelor of Science in Political Science',
+      institution: 'Methodist University',
+      period: '09/2018 - 05/2020',
+      location: 'Fayetteville, NC',
+      description: 'Completed with concentrations in International Relations, Public Administration, and a minor in History. While also completing Leadership Fellows and NSLS curriculum and requirements.'
     }
   ];
 
   skills = [
     {
       category: 'Frontend',
-      items: ['Angular', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'SCSS', 'Tailwind CSS', 'Material UI']
+      items: ['Angular', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'SCSS', 'Tailwind CSS', 'Material UI', 'Bootstrap', 'React', 'Vue.js', 'Next.js', 'Gatsby', 'Lit', 'Svelte', 'Preact']
     },
     {
       category: 'Tools & Methodologies',
-      items: ['Git', 'Webpack', 'Nx', 'JIRA', 'Agile', 'Scrum', 'CI/CD', 'Jest', 'Cypress']
+      items: ['Git', 'Webpack', 'Nx', 'JIRA', 'Agile', 'Scrum', 'CI/CD', 'Jest', 'Cypress', 'Storybook', 'ESLint', 'Prettier', 'Postman']
     },
     {
       category: 'Backend & Others',
-      items: ['Node.js', 'Express', 'RESTful APIs', 'Firebase', 'MongoDB', 'AWS', 'Docker']
+      items: ['Node.js', 'Express', 'RESTful APIs', 'Firebase', 'MongoDB', 'AWS', 'Docker', 'GraphQL', 'Apollo']
+    },
+    {
+      category: 'AI & Machine Learning',
+      items: ['Python', 'TensorFlow', 'OpenAI API', 'Natural Language Processing (NLP)']
+    },
+    {
+      category: 'Algorithms & Data Structures',
+      items: ['Big O Notation', 'Sorting Algorithms', 'Graph Algorithms', 'Dynamic Programming']
+    },
+    {
+      category: 'Game Development',
+      items: ['Unreal Engine', 'C++', 'C', 'Python']
     }
   ];
 }

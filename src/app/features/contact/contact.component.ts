@@ -1,12 +1,14 @@
-import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatCardModule} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ContactService } from '../../core/services/contact.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-contact',
@@ -21,6 +23,29 @@ import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
     MatIconModule,
     MatSnackBarModule
   ],
+
+  styles: [`
+    .contact-info {
+      order: 2;
+    }
+
+    .contact-form {
+      order: 1;
+    }
+
+    @media (min-width: 768px) {
+      .contact-info {
+        order: 1;
+      }
+
+      .contact-form {
+        order: 2;
+      }
+    }
+  `],
+
+
+
   template: `
     <div class="container mx-auto py-8">
       <h1 class="text-3xl font-bold mb-8 text-center">Contact Me</h1>
@@ -70,7 +95,6 @@ import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
             </mat-card-content>
           </mat-card>
         </div>
-
         <div class="contact-form">
           <mat-card>
             <mat-card-header>
@@ -132,7 +156,8 @@ export class ContactComponent {
 
   constructor(
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private contactService: ContactService
   ) {
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
@@ -146,17 +171,34 @@ export class ContactComponent {
     if (this.contactForm.valid) {
       this.isSubmitting = true;
 
-      // In a real application, you would send the form data to a backend service
-      // For demo purposes, we'll just simulate a delay and show a success message
-      setTimeout(() => {
-        this.snackBar.open('Message sent successfully!', 'Close', {
-          duration: 3000,
-          panelClass: 'success-snackbar'
+      this.contactService.sendEmail(
+        this.contactForm.value.name,
+        this.contactForm.value.email,
+        this.contactForm.value.message
+      )
+        .pipe(
+          finalize(() => this.isSubmitting = false)
+        )
+        .subscribe({
+          next: () => {
+            this.snackBar.open('Message sent successfully!', 'Close', {
+              duration: 3000,
+              panelClass: 'success-snackbar'
+            });
+            this.contactForm.reset();
+          },
+          error: (error) => {
+            console.error('Error sending email:', error);
+            this.snackBar.open('Failed to send message. Please try again.', 'Close', {
+              duration: 5000,
+              panelClass: 'error-snackbar'
+            });
+          }
         });
-
-        this.contactForm.reset();
-        this.isSubmitting = false;
-      }, 1500);
     }
+  }
+
+  downloadCV() {
+    this.contactService.downloadCV();
   }
 }

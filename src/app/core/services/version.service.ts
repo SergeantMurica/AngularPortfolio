@@ -15,32 +15,32 @@ export class VersionService {
   private portfolioVersions: Version[] = [
     {
       id: "v1",
-      name: "Angular Portfolio",
+      name: "Angular",
       url: "https://alexander-angular-portfolio.vercel.app/",
     },
     {
       id: "v2",
-      name: "The Portfolio Hub",
+      name: "The Hub",
       url: "https://alexander-portfolio-hub.vercel.app/",
     },
     {
       id: "v3",
-      name: "Svelte Portfolio",
+      name: "Svelte",
       url: "https://svelte-portfolio-pied.vercel.app/",
     },
     {
       id: "v4",
-      name: "Preact Portfolio",
+      name: "Preact",
       url: "https://preact-portfolio-vert.vercel.app/",
     },
     {
       id: "v5",
-      name: "Lit Portfolio",
+      name: "Lit",
       url: "https://alexanders-lit-portfolio.vercel.app/",
     },
     {
       id: "v6",
-      name: "Vue Portfolio",
+      name: "Vue",
       url: "https://alexander-vue-portfolio.vercel.app/",
     },
 
@@ -49,12 +49,12 @@ export class VersionService {
 
     {
       id: "v7",
-      name: "Next.js Portfolio",
+      name: "Next.js",
       url: "https://preact-portfolio-vert.vercel.app/",
     },
     {
       id: "v8",
-      name: "HTML Portfolio",
+      name: "HTML",
       url: "https://preact-portfolio-vert.vercel.app/",
     },
   ];
