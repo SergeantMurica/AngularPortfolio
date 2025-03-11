@@ -448,6 +448,7 @@ export interface Portfolio {
     date: string;
     complexity: number;
     caption: string;
+    challenges: string;
 }
 
 export const portfolioTabs: PortfolioTabs = {
@@ -485,6 +486,7 @@ export const portfolio: Portfolio[] = [
         date: "02/20/2025",
         complexity: 50,
         caption: "A modern React and Typescript productivity application.",
+      challenges: "One of the main challenges was optimizing performance for mobile devices while maintaining complex animations. I solved this by implementing lazy loading, code splitting, and using hardware-accelerated CSS properties.",
     },
     {
         tags: [
@@ -504,6 +506,7 @@ export const portfolio: Portfolio[] = [
         date: "12/17/2024",
         complexity: 20,
         caption: "Interactive Pokémon-themed gaming site.",
+        challenges: "One of the main challenges was optimizing performance for mobile devices while maintaining animations. I solved this by implementing lazy loading, code splitting, and using hardware-accelerated CSS properties.",
     },
     {
         tags: [
@@ -524,6 +527,7 @@ export const portfolio: Portfolio[] = [
         date: "02/05/2025",
         complexity: 25,
         caption: "A modern React and Typescript color scheme generator.",
+      challenges: "One of the main challenges was optimizing performance for mobile devices while maintaining complex animations. I solved this by implementing lazy loading, code splitting, and using hardware-accelerated CSS properties.",
     },
     {
         tags: [
@@ -541,6 +545,7 @@ export const portfolio: Portfolio[] = [
         date: "01/05/2025",
         complexity: 14,
         caption: "Stylish, responsive portfolio template.",
+      challenges: "One of the main challenges was optimizing performance for mobile devices while maintaining complex animations. I solved this by implementing lazy loading, code splitting, and using hardware-accelerated CSS properties.",
     },
     {
         tags: [
@@ -557,7 +562,8 @@ export const portfolio: Portfolio[] = [
             "save/load functionality, and dynamic navigation.",
         date: "07/05/2024",
         complexity: 18,
-        caption: "A versatile template for creating dynamic and customizable menu systems in Unreal Engine."
+        caption: "A versatile template for creating dynamic and customizable menu systems in Unreal Engine.",
+        challenges: "One of the main challenges was optimizing performance for mobile devices while maintaining complex animations. I solved this by implementing lazy loading, code splitting, and using hardware-accelerated CSS properties.",
     },
     {
         tags: [
@@ -574,7 +580,8 @@ export const portfolio: Portfolio[] = [
             "real-time strategy game projects.",
         date: "04/05/2024",
         complexity: 15,
-        caption: "A robust Unreal Engine template for building real-time strategy games with ease."
+        caption: "A robust Unreal Engine template for building real-time strategy games with ease.",
+        challenges: "One of the main challenges was optimizing performance for mobile devices while maintaining complex animations. I solved this by implementing lazy loading, code splitting, and using hardware-accelerated CSS properties.",
     },
     {
         tags: [
@@ -592,165 +599,175 @@ export const portfolio: Portfolio[] = [
         date: "12/04/2024",
         complexity: 8,
         caption: "Character explorer for Rick and Morty fans.",
+        challenges: "One of the main challenges was optimizing performance for mobile devices while maintaining complex animations. I solved this by implementing lazy loading, code splitting, and using hardware-accelerated CSS properties.",
     },
-    {
-        tags: [
-            {tag: "JavaScript"},
-        ],
-        image: "/assets/images/portfolio/Converter.png",
-        links: [
-            {link: "https://github.com/SergeantMurica/Measurement-Converter", icon: "github.svg"},
-            {link: "https://measurement-converter-five.vercel.app/", icon: "link.svg"},
-            {link: "blog#/blog", icon: "blog.svg"},
-        ],
-        title: "Measurement Converter",
-        description: "A utility tool built in JavaScript for converting measurements across various units, including " +
-            "length, weight, and temperature. Features an intuitive interface and accurate calculations",
-        date: "11/21/2024",
-        complexity: 9,
-        caption: "Easily convert units with precision.",
-    },
-    {
-        tags: [
-            {tag: "JavaScript"},
-        ],
-        image: "/assets/images/portfolio/JokeBot.png",
-        links: [
-            {link: "https://github.com/SergeantMurica/dad-joke-bot", icon: "github.svg"},
-            {link: "https://dad-joke-bot-rosy.vercel.app/", icon: "link.svg"},
-            {link: "blog#/blog", icon: "blog.svg"},
-        ],
-        title: "Dad Joke Bot",
-        description: "A JavaScript chatbot delivering a good amount of classic dad jokes.",
-        date: "11/13/2024",
-        complexity: 7,
-        caption: "A short description",
-    },
-    {
-        tags: [
-            {tag: "React"},
-            {tag: "TypeScript"},
-            {tag: "Tailwind CSS"},
-        ],
-        image: "/assets/images/portfolio/KanBanBoard.png",
-        links: [
-            {link: "https://github.com/SergeantMurica/Kanban-Board", icon: "github.svg"},
-            {link: "https://kanban-board-iota-nine.vercel.app/", icon: "link.svg"},
-            {link: "blog#/blog", icon: "blog.svg"},
-        ],
-        title: "Kanban Board Project",
-        description: "A Kanban board application that allows users to create, " +
-            "organize, and prioritize tasks. This project helped inspire me to make the Full Stack ChronosBoard project. ",
-        date: "1/06/2025",
-        complexity: 12,
-        caption: "A basic and responsive Kanban Board.",
-    },
-    {
-        tags: [
-            {tag: "React"},
-            {tag: "TypeScript"},
-            {tag: "Tailwind CSS"},
-        ],
-        image: "/assets/images/portfolio/Timer.png",
-        links: [
-            {link: "https://github.com/SergeantMurica/timer-project", icon: "github.svg"},
-            {link: "https://timer-project-weld.vercel.app/", icon: "link.svg"},
-            {link: "blog#/blog", icon: "blog.svg"},
-        ],
-        title: "Timer Project",
-        description: "A Timer application that allows users to create tasks and time them" +
-            ". This project helped inspire me to make the Full Stack ChronosBoard project. ",
-        date: "1/08/2025",
-        complexity: 12,
-        caption: "A basic and responsive Timer.",
-    },
-    {
-        tags: [
-            {tag: "React"},
-            {tag: "TypeScript"},
-            {tag: "Tailwind CSS"},
-        ],
-        image: "/assets/images/portfolio/NoteApp.png",
-        links: [
-            {link: "https://github.com/SergeantMurica/Notes-App", icon: "github.svg"},
-            {link: "https://modernportfolio-nu.vercel.app/", icon: "link.svg"},
-            {link: "blog#/blog", icon: "blog.svg"},
-        ],
-        title: "Note App Project",
-        description: "This project was a final step in my process of learning React and TypeScript " +
-            "enough to make a Full Stack project. This is library based, and allows users to create notes. However, " +
-            "it was reworked and created from scratch in ChronosBoard.",
-        date: "1/08/2025",
-        complexity: 5,
-        caption: "Note taking application.",
-    },
-    {
-        tags: [
-            {tag: "JavaScript"},
-        ],
-        image: "/assets/images/portfolio/Cipher.png",
-        links: [
-            {link: "https://github.com/SergeantMurica/caesars-cipher", icon: "github.svg"},
-            {link: "https://caesars-cipher-pied.vercel.app/", icon: "link.svg"},
-            {link: "blog#/blog", icon: "blog.svg"},
-        ],
-        title: "Caesar's Cipher",
-        description: "A JavaScript implementation of Caesar's Cipher, a classic encryption algorithm. " +
-            "The tool allows users to encode and decode messages with customizable shift values, " +
-            "making cryptography simple and accessible",
-        date: "11/18/2024",
-        complexity: 3,
-        caption: "Encrypt and decrypt messages with ease.",
-    },
-    {
-        tags: [
-            {tag: "JavaScript"},
-        ],
-        image: "/assets/images/portfolio/PixelPaws.png",
-        links: [
-            {link: "https://github.com/SergeantMurica/pixel-paws-practice", icon: "github.svg"},
-            {link: "https://pixel-paws-practice.vercel.app/", icon: "link.svg"},
-            {link: "blog#/blog", icon: "blog.svg"},
-        ],
-        title: "Pet Care Game",
-        description: "A JavaScript game where users care for virtual pets by feeding them, or they run away.",
-        date: "11/15/2024",
-        complexity: 3,
-        caption: "Interactive pet care simulation game.",
-    },
-    {
-        tags: [
-            {tag: "JavaScript"},
-        ],
-        image: "/assets/images/portfolio/Trivia.png",
-        links: [
-            {link: "https://github.com/SergeantMurica/Trivia-Game", icon: "github.svg"},
-            {link: "https://trivia-game-weld-chi.vercel.app/", icon: "link.svg"},
-            {link: "blog#/blog", icon: "blog.svg"},
-        ],
-        title: "Trivia",
-        description: "A JavaScript-based trivia game that challenges players with questions across various " +
-            "categories. Offers a simple design, responsive scoring, and a large question bank.",
-        date: "11/28/2024",
-        complexity: 3,
-        caption: "Test your knowledge with fun trivia questions.",
-    },
-    {
-        tags: [
-            {tag: "JavaScript"},
-        ],
-        image: "/assets/images/portfolio/NumberGuess.png",
-        links: [
-            {link: "https://github.com/SergeantMurica/number-game", icon: "github.svg"},
-            {link: "https://number-game-omega-two.vercel.app/", icon: "link.svg"},
-            {link: "blog#/blog", icon: "blog.svg"},
-        ],
-        title: "Number Guessing Game",
-        description: "A classic JavaScript game where players guess a randomly generated number within a range. " +
-            "Features interactive hints, and a simple gameplay loop",
-        date: "11/05/2024",
-        complexity: 4,
-        caption: "Guess the number and beat the game!",
-    },
+  {
+    tags: [
+      {tag: "JavaScript"},
+    ],
+    image: "/assets/images/portfolio/Converter.png",
+    links: [
+      {link: "https://github.com/SergeantMurica/Measurement-Converter", icon: "github.svg"},
+      {link: "https://measurement-converter-five.vercel.app/", icon: "link.svg"},
+      {link: "blog#/blog", icon: "blog.svg"},
+    ],
+    title: "Measurement Converter",
+    description: "A utility tool built in JavaScript for converting measurements across various units, including " +
+      "length, weight, and temperature. Features an intuitive interface and accurate calculations",
+    date: "11/21/2024",
+    complexity: 9,
+    caption: "Easily convert units with precision.",
+    challenges: ""
+  },
+  {
+    tags: [
+      {tag: "JavaScript"},
+    ],
+    image: "/assets/images/portfolio/JokeBot.png",
+    links: [
+      {link: "https://github.com/SergeantMurica/dad-joke-bot", icon: "github.svg"},
+      {link: "https://dad-joke-bot-rosy.vercel.app/", icon: "link.svg"},
+      {link: "blog#/blog", icon: "blog.svg"},
+    ],
+    title: "Dad Joke Bot",
+    description: "A JavaScript chatbot delivering a good amount of classic dad jokes.",
+    date: "11/13/2024",
+    complexity: 7,
+    caption: "A short description",
+    challenges: "",
+  },
+  {
+    tags: [
+      {tag: "React"},
+      {tag: "TypeScript"},
+      {tag: "Tailwind CSS"},
+    ],
+    image: "/assets/images/portfolio/KanBanBoard.png",
+    links: [
+      {link: "https://github.com/SergeantMurica/Kanban-Board", icon: "github.svg"},
+      {link: "https://kanban-board-iota-nine.vercel.app/", icon: "link.svg"},
+      {link: "blog#/blog", icon: "blog.svg"},
+    ],
+    title: "Kanban Board Project",
+    description: "A Kanban board application that allows users to create, " +
+      "organize, and prioritize tasks. This project helped inspire me to make the Full Stack ChronosBoard project. ",
+    date: "1/06/2025",
+    complexity: 12,
+    caption: "A basic and responsive Kanban Board.",
+    challenges: ""
+  },
+  {
+    tags: [
+      {tag: "React"},
+      {tag: "TypeScript"},
+      {tag: "Tailwind CSS"},
+    ],
+    image: "/assets/images/portfolio/Timer.png",
+    links: [
+      {link: "https://github.com/SergeantMurica/timer-project", icon: "github.svg"},
+      {link: "https://timer-project-weld.vercel.app/", icon: "link.svg"},
+      {link: "blog#/blog", icon: "blog.svg"},
+    ],
+    title: "Timer Project",
+    description: "A Timer application that allows users to create tasks and time them" +
+      ". This project helped inspire me to make the Full Stack ChronosBoard project. ",
+    date: "1/08/2025",
+    complexity: 12,
+    caption: "A basic and responsive Timer.",
+    challenges: ""
+  },
+  {
+    tags: [
+      {tag: "React"},
+      {tag: "TypeScript"},
+      {tag: "Tailwind CSS"},
+    ],
+    image: "/assets/images/portfolio/NoteApp.png",
+    links: [
+      {link: "https://github.com/SergeantMurica/Notes-App", icon: "github.svg"},
+      {link: "https://modernportfolio-nu.vercel.app/", icon: "link.svg"},
+      {link: "blog#/blog", icon: "blog.svg"},
+    ],
+    title: "Note App Project",
+    description: "This project was a final step in my process of learning React and TypeScript " +
+      "enough to make a Full Stack project. This is library based, and allows users to create notes. However, " +
+      "it was reworked and created from scratch in ChronosBoard.",
+    date: "1/08/2025",
+    complexity: 5,
+    caption: "Note taking application.",
+    challenges: ""
+  },
+  {
+    tags: [
+      {tag: "JavaScript"},
+    ],
+    image: "/assets/images/portfolio/Cipher.png",
+    links: [
+      {link: "https://github.com/SergeantMurica/caesars-cipher", icon: "github.svg"},
+      {link: "https://caesars-cipher-pied.vercel.app/", icon: "link.svg"},
+      {link: "blog#/blog", icon: "blog.svg"},
+    ],
+    title: "Caesar's Cipher",
+    description: "A JavaScript implementation of Caesar's Cipher, a classic encryption algorithm. " +
+      "The tool allows users to encode and decode messages with customizable shift values, " +
+      "making cryptography simple and accessible",
+    date: "11/18/2024",
+    complexity: 3,
+    caption: "Encrypt and decrypt messages with ease.",
+    challenges: ""
+  },
+  {
+    tags: [
+      {tag: "JavaScript"},
+    ],
+    image: "/assets/images/portfolio/PixelPaws.png",
+    links: [
+      {link: "https://github.com/SergeantMurica/pixel-paws-practice", icon: "github.svg"},
+      {link: "https://pixel-paws-practice.vercel.app/", icon: "link.svg"},
+      {link: "blog#/blog", icon: "blog.svg"},
+    ],
+    title: "Pet Care Game",
+    description: "A JavaScript game where users care for virtual pets by feeding them, or they run away.",
+    date: "11/15/2024",
+    complexity: 3,
+    caption: "Interactive pet care simulation game.",
+    challenges: ""
+  },
+  {
+    tags: [
+      {tag: "JavaScript"},
+    ],
+    image: "/assets/images/portfolio/Trivia.png",
+    links: [
+      {link: "https://github.com/SergeantMurica/Trivia-Game", icon: "github.svg"},
+      {link: "https://trivia-game-weld-chi.vercel.app/", icon: "link.svg"},
+      {link: "blog#/blog", icon: "blog.svg"},
+    ],
+    title: "Trivia",
+    description: "A JavaScript-based trivia game that challenges players with questions across various " +
+      "categories. Offers a simple design, responsive scoring, and a large question bank.",
+    date: "11/28/2024",
+    complexity: 3,
+    caption: "Test your knowledge with fun trivia questions.",
+    challenges: ""
+  },
+  {
+    tags: [
+      {tag: "JavaScript"},
+    ],
+    image: "/assets/images/portfolio/NumberGuess.png",
+    links: [
+      {link: "https://github.com/SergeantMurica/number-game", icon: "github.svg"},
+      {link: "https://number-game-omega-two.vercel.app/", icon: "link.svg"},
+      {link: "blog#/blog", icon: "blog.svg"},
+    ],
+    title: "Number Guessing Game",
+    description: "A classic JavaScript game where players guess a randomly generated number within a range. " +
+      "Features interactive hints, and a simple gameplay loop",
+    date: "11/05/2024",
+    complexity: 4,
+    caption: "Guess the number and beat the game!",
+    challenges: ""
+  },
 
 ]

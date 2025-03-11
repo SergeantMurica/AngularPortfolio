@@ -1,11 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
-import {MatIconModule} from '@angular/material/icon';
-import {RouterModule} from '@angular/router';
-import {animate, style, transition, trigger} from '@angular/animations';
-import {StateService} from '../../core/services/state.service';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
+import { animate, style, transition, trigger, query, stagger } from '@angular/animations';
+import { StateService } from '../../core/services/state.service';
+import { ThemeService } from '../../core/services/theme.service';
+import { toSignal } from '@angular/core/rxjs-interop'; // Angular's new Signals API
+import { gsap } from 'gsap'; // Add GSAP for advanced animations
 
 @Component({
   selector: 'app-home',
@@ -13,102 +15,371 @@ import {StateService} from '../../core/services/state.service';
   imports: [
     CommonModule,
     MatButtonModule,
-    MatCardModule,
-    MatIconModule,
     RouterModule,
     NgOptimizedImage
   ],
   template: `
-    <section class="py-12 max-h-[52vh]">
-      <div class="max-w-4xl mx-auto text-center" @fadeIn>
-        <div class="mb-8">
-          <img
-            ngSrc="/assets/images/profileImage.png"
-            alt="Profile"
-            class="w-40 h-40 mx-auto rounded-full object-cover shadow-lg"
-            height="500" width="500"/>
-        </div>
+    <div class="home-container">
+      <!-- Interactive 3D Hero Section -->
+      <section class="hero-section" #heroSection>
+        <div class="parallax-layer back-layer" #backLayer></div>
+        <div class="parallax-layer mid-layer" #midLayer></div>
 
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">
-          {{ userInfo.name }}
-        </h1>
+        <div class="content-container" @fadeInStagger>
+          <div class="profile-container">
+            <div class="profile-image-wrapper">
+              <img
+                ngSrc="/assets/images/profileImage.png"
+                alt="Profile"
+                class="profile-image"
+                height="500" width="500"
+                (mouseenter)="animateProfile(true)"
+                (mouseleave)="animateProfile(false)"
+                #profileImage
+              />
+              <div class="profile-glow" #profileGlow></div>
+            </div>
+          </div>
 
-        <h2 class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-6">
-          {{ userInfo.title }}
-        </h2>
+          <div class="text-content">
+            <h1 class="name-title" #nameTitle>{{ userInfo.name }}</h1>
+            <h2 class="job-title" #jobTitle>{{ userInfo.title }}</h2>
 
-        <p class="text-lg mb-8 max-w-2xl mx-auto">
-          {{ aboutMe.start }}
-        </p>
+            <p class="bio-text" #bioText>
+              {{ aboutMe.start }}
+            </p>
 
-        <div class="flex justify-center gap-4">
-          <a mat-raised-button color="primary" routerLink="/portfolio">View My Work</a>
-          <a mat-raised-button routerLink="/contact">Contact Me</a>
-          <a mat-raised-button routerLink="/resume">View My Resume</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="py-8 bg-background w-full">
-      <div class="stack-container mx-auto">
-        <h2 class="text-2xl font-bold text-center">Tech Stack</h2>
-
-        <div class="ticker-tape-container overflow-hidden">
-          <div class="ticker-tape-content flex gap-8 animate-scroll">
-            <div *ngFor="let tech of techStack" class="tech-item flex items-center gap-2">
-              <img [ngSrc]="tech.logo" [alt]="tech.name" class="w-8 h-8" height="32" width="32"/>
-              <span>{{ tech.name }}</span>
+            <div class="cta-buttons" #ctaButtons>
+              <a mat-raised-button class="main-cta" routerLink="/portfolio">
+                <span class="btn-text">View My Work</span>
+                <span class="btn-icon">→</span>
+              </a>
+              <a mat-stroked-button class="secondary-cta" routerLink="/contact">Contact Me</a>
+              <a mat-stroked-button class="secondary-cta" routerLink="/resume">My Resume</a>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <!-- Interactive Tech Stack -->
+      <section class="tech-stack-section" #techStackSection>
+        <h2 class="section-title">My Technology Arsenal</h2>
+
+        <div class="tech-orbit-container" #orbitContainer>
+          <div class="orbit-center" #orbitCenter>
+            <span class="center-text">Tech Stack</span>
+          </div>
+
+          <div class="orbit-ring" #orbitRing>
+            <div *ngFor="let tech of featuredTech; let i = index"
+                 class="tech-item"
+                 [ngStyle]="getTechItemStyle(i)"
+                 (click)="selectTech(tech)"
+                 #techItems>
+              <div class="tech-icon">
+                <img [ngSrc]="tech.logo" [alt]="tech.name" height="32" width="32"/>
+              </div>
+              <span class="tech-name">{{ tech.name }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tech-details" #techDetails *ngIf="selectedTech" @fadeSlide>
+          <h3>{{ selectedTech.name }}</h3>
+          <p>{{ getTechDescription(selectedTech.name) }}</p>
+        </div>
+      </section>
+    </div>
   `,
   styles: [`
-    .animate-scroll {
-      animation: scroll 20s linear infinite;
+    .home-container {
+      overflow-x: hidden;
     }
 
-    @keyframes scroll {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-50%);
-      }
-    }
-
-    .stack-container {
-      max-width: 1200px;
-      border-radius: 10px;
-      border: 1px solid var(--highlight-color);
-      margin-top: 3rem;
-    }
-
-    .ticker-tape-container {
+    /* Hero Section with Parallax */
+    .hero-section {
+      height: 100vh;
       width: 100%;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      perspective: 1000px;
     }
 
-    .ticker-tape-content {
-      display: inline-flex;
-      white-space: nowrap;
-      padding-right: 100%;
+    .parallax-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      will-change: transform;
+    }
+
+    .back-layer {
+      background: radial-gradient(circle at center, var(--color-highlight) 0%, var(--color-background) 70%);
+      opacity: 0.3;
+    }
+
+    .mid-layer {
+      background: url('/assets/svg/grid.svg');
+      opacity: 0.1;
+    }
+
+    .content-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      z-index: 10;
+      padding: 0 2rem;
+      gap: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .profile-container {
+      position: relative;
+    }
+
+    .profile-image-wrapper {
+      position: relative;
+      width: 280px;
+      height: 280px;
+    }
+
+    .profile-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .profile-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      background: radial-gradient(circle at center, var(--color-highlight), transparent 70%);
+      opacity: 0;
+      filter: blur(15px);
+      z-index: -1;
+      transform: scale(1.2);
+    }
+
+    .text-content {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .name-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, var(--color-main), var(--color-highlight));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0; /* For animation */
+    }
+
+    .job-title {
+      font-size: 1.8rem;
+      color: var(--color-secondary);
+      margin-bottom: 1.5rem;
+      opacity: 0; /* For animation */
+    }
+
+    .bio-text {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      opacity: 0; /* For animation */
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0; /* For animation */
+    }
+
+    .main-cta {
+      background: linear-gradient(135deg, var(--color-main), var(--color-highlight));
+      color: white;
+      padding: 0.6rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .main-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-cta:hover .btn-icon {
+      transform: translateX(3px);
+    }
+
+    .btn-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .secondary-cta {
+      border: 2px solid var(--color-main);
+      color: var(--color-main);
+      padding: 0.6rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .secondary-cta:hover {
+      background: rgba(var(--color-main), 0.1);
+      transform: translateY(-3px);
+    }
+
+    /* Tech Stack Orbit */
+    .tech-stack-section {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, var(--color-background), var(--color-shading) 30%, var(--color-background));
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 4rem;
+      text-align: center;
+      color: var(--color-headingText);
+    }
+
+    .tech-orbit-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      height: 600px;
+      margin: 0 auto;
+    }
+
+    .orbit-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, var(--color-main), var(--color-highlight));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      z-index: 5;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .orbit-ring {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 1px dashed var(--color-border);
     }
 
     .tech-item {
-      flex: 0 0 auto;
+      position: absolute;
+      top: 45%;
+      left: 45%;
+      width: 60px;
+      height: 60px;
+      background: var(--color-container);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      z-index: 2;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .tech-item:hover {
+      transform: scale(1.2);
+      z-index: 10;
+      background: white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .tech-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+    }
+
+    .tech-name {
+      font-size: 0.7rem;
+      margin-top: 0.2rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .tech-item:hover .tech-name {
+      opacity: 1;
+    }
+
+    .tech-details {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      background: var(--color-container);
+      border-radius: 10px;
+      max-width: 500px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
   `],
   animations: [
-    trigger('fadeIn', [
+    trigger('fadeInStagger', [
       transition(':enter', [
-        style({opacity: 0, transform: 'translateY(20px)'}),
-        animate('600ms ease-out', style({opacity: 1, transform: 'translateY(0)'}))
+        query('.name-title, .job-title, .bio-text, .cta-buttons', [
+          style({ opacity: 0, transform: 'translateY(20px)' }),
+          stagger(150, [
+            animate('600ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+          ])
+        ], { optional: true })
+      ])
+    ]),
+    trigger('fadeSlide', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('400ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ opacity: 0, transform: 'translateY(20px)' }))
       ])
     ])
   ]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   userInfo = {
     name: 'Alex Developer',
     title: 'Full Stack Engineer',
@@ -117,20 +388,10 @@ export class HomeComponent implements OnInit {
 
   aboutMe = {
     title: "About me",
-    start:
-      "I am a dedicated full-stack developer with a diverse background in military service, education, and social media marketing. My passion lies in crafting efficient and innovative web solutions that make a meaningful impact.",
-    mid:
-      "As a mental health advocate and content creator, I’ve channeled my personal experiences to help others navigate life’s challenges, building communities focused on awareness and support. This mission has shaped my commitment to leveraging technology to empower creators and foster positivity.",
-    end:
-      "I aspire to advance my career as a developer by designing tools and platforms that enable content creators to connect, inspire, and bring more joy into the lives of their audiences.",
+    start: "I am a dedicated full-stack developer with a diverse background in military service, education, and social media marketing. My passion lies in crafting efficient and innovative web solutions that make a meaningful impact."
   };
 
   techStack = [
-    {name: "Angular", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/angular.svg"},
-    {name: "Sass", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/sass.svg"},
-    {name: "Node.js", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/nodejs.svg"},
-    {name: "Tailwind CSS", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/tailwindcss.svg"},
-
     {name: "SQLite", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/sqlite.svg"},
     {name: "Express", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/express.svg"},
     {name: "Python", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/python.svg"},
@@ -159,13 +420,160 @@ export class HomeComponent implements OnInit {
     {name: "MySQL", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/mysql.svg"},
   ];
 
-  constructor(private stateService: StateService) {
-  }
+  // Featured tech to show in the orbit
+  featuredTech = this.techStack.slice(0, 12);
+  selectedTech: any = null;
+
+  // Element references for animations
+  @ViewChild('heroSection') heroSection!: ElementRef;
+  @ViewChild('backLayer') backLayer!: ElementRef;
+  @ViewChild('midLayer') midLayer!: ElementRef;
+  @ViewChild('profileImage') profileImage!: ElementRef;
+  @ViewChild('profileGlow') profileGlow!: ElementRef;
+  @ViewChild('nameTitle') nameTitle!: ElementRef;
+  @ViewChild('jobTitle') jobTitle!: ElementRef;
+  @ViewChild('bioText') bioText!: ElementRef;
+  @ViewChild('ctaButtons') ctaButtons!: ElementRef;
+  @ViewChild('orbitContainer') orbitContainer!: ElementRef;
+  @ViewChild('orbitRing') orbitRing!: ElementRef;
+
+  // Inject services
+  private stateService = inject(StateService);
+  private themeService = inject(ThemeService);
+
+  // Convert Observable to Signal (new Angular feature)
+  theme = toSignal(this.themeService.theme$, { initialValue: 'default' });
 
   ngOnInit() {
     // Get user info from state if needed
     this.stateService.getState().subscribe(state => {
       this.userInfo = state.user;
     });
+  }
+
+  getTechItemStyle(index: number) {
+    const angle = (360 / this.featuredTech.length) * index;
+    return {
+      transform: `rotate(${angle}deg) translate(250px) rotate(-${angle}deg)`
+    };
+  }
+
+  ngAfterViewInit() {
+    this.initParallaxEffect();
+    this.initProfileAnimation();
+    this.initTextAnimation();
+    this.initOrbitAnimation();
+  }
+
+  initParallaxEffect() {
+    document.addEventListener('mousemove', (e) => {
+      const { clientX, clientY } = e;
+      const { width, height } = this.heroSection.nativeElement.getBoundingClientRect();
+
+      const xPercent = (clientX / width - 0.5) * 2; // -1 to 1
+      const yPercent = (clientY / height - 0.5) * 2; // -1 to 1
+
+      gsap.to(this.backLayer.nativeElement, {
+        x: xPercent * 30,
+        y: yPercent * 30,
+        duration: 1,
+        ease: 'power2.out'
+      });
+
+      gsap.to(this.midLayer.nativeElement, {
+        x: xPercent * 60,
+        y: yPercent * 60,
+        duration: 1,
+        ease: 'power2.out'
+      });
+    });
+  }
+
+  initProfileAnimation() {
+    gsap.set(this.profileGlow.nativeElement, { opacity: 0 });
+
+    gsap.fromTo(this.profileImage.nativeElement,
+      { scale: 0.8, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 1, ease: 'elastic.out(1, 0.5)', delay: 0.2 }
+    );
+  }
+
+  initTextAnimation() {
+    const elements = [
+      this.nameTitle.nativeElement,
+      this.jobTitle.nativeElement,
+      this.bioText.nativeElement,
+      this.ctaButtons.nativeElement
+    ];
+
+    gsap.fromTo(elements,
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, stagger: 0.15, duration: 0.8, ease: 'power2.out', delay: 0.5 }
+    );
+  }
+
+  initOrbitAnimation() {
+    gsap.to(this.orbitRing.nativeElement, {
+      rotation: 360,
+      duration: 80,
+      repeat: -1,
+      ease: 'none',
+      transformOrigin: 'center center'
+    });
+  }
+
+  animateProfile(isHovering: boolean) {
+    if (isHovering) {
+      gsap.to(this.profileImage.nativeElement, {
+        scale: 1.05,
+        rotate: '-5deg',
+        duration: 0.4,
+        ease: 'power2.out'
+      });
+
+      gsap.to(this.profileGlow.nativeElement, {
+        opacity: 0.7,
+        duration: 0.4
+      });
+    } else {
+      gsap.to(this.profileImage.nativeElement, {
+        scale: 1,
+        rotate: '0deg',
+        duration: 0.4,
+        ease: 'power2.out'
+      });
+
+      gsap.to(this.profileGlow.nativeElement, {
+        opacity: 0,
+        duration: 0.4
+      });
+    }
+  }
+
+  selectTech(tech: any) {
+    this.selectedTech = tech;
+  }
+
+  getTechDescription(techName: string): string {
+    // Mock descriptions - replace with real data
+    const descriptions: Record<string, string> = {
+      'Angular': 'I love its structure and powerful features for building dynamic web applications.',
+      'React': 'My primary frontend framework - Used for building interactive user interfaces, especially for single-page applications.',
+      'Node.js': 'My go-to for server-side JavaScript runtime environment.',
+      'TypeScript': 'The foundation of my development - strong typing improves code quality and maintenance.',
+      'Firebase': 'My preferred backend-as-a-service platform for real-time database and authentication.',
+      'GitHub': 'My primary platform for version control and code hosting.',
+      'Vercel': 'My preferred platform for deploying and hosting static and serverless applications.',
+      'Tailwind CSS': 'My preferred CSS framework for utility-first styling and rapid UI development.',
+      'MongoDB': 'My preferred NoSQL database for scalable and flexible data storage.',
+      'Express': 'My preferred Node.js web application framework for building APIs and web applications.',
+      'PostgreSQL': 'My preferred relational database for structured data storage and management.',
+      'Python': 'My preferred language for AI and machine learning projects.',
+      'JavaScript': 'My first language for frontend and backend development.',
+
+      // Add more as needed
+    };
+
+    return descriptions[techName] || `A key technology in my stack that I use for building modern web applications.`;
   }
 }
