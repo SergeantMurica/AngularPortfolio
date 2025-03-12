@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -16,34 +16,35 @@ import {ModeService} from '../../services/mode.service';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    NgOptimizedImage
   ],
   template: `
-    <mat-toolbar color="primary" class="px-4 py-2">
+    <div class="px-4 py-2 bg-background/40">
       <div class="container mx-auto flex justify-between items-center">
-        <a routerLink="/" class="text-lg font-bold no-underline relative text-background">
-          <span class="absolute inline-block animate-pulse text-xs top-4 left-35 w-full h-1 rotate-18">Angular</span>
+        <a routerLink="/" class="text-lg font-bold no-underline relative text-headingText">
+          <span class="absolute inline-block animate-pulse text-xs top-0 left-35 h-1 rotate-18">Angular</span>
           The Pantheon Dev
         </a>
 
         <div class="hidden md:block">
           <nav class="flex gap-4">
-            <a mat-button routerLink="/" routerLinkActive="bg-primary-dark"
+            <a mat-button routerLink="/" routerLinkActive="bg-main"
                [routerLinkActiveOptions]="{exact: true}">Home</a>
-            <a mat-button routerLink="/resume" routerLinkActive="bg-primary-dark">Resume</a>
-            <a mat-button routerLink="/portfolio" routerLinkActive="bg-primary-dark">Portfolio</a>
-            <a mat-button routerLink="/blog" routerLinkActive="bg-primary-dark">Blog</a>
-            <a mat-button routerLink="/contact" routerLinkActive="bg-primary-dark">Contact</a>
+            <a mat-button routerLink="/resume" routerLinkActive="bg-main">Resume</a>
+            <a mat-button routerLink="/portfolio" routerLinkActive="bg-main">Portfolio</a>
+            <a mat-button routerLink="/blog" routerLinkActive="bg-main">Blog</a>
+            <a mat-button routerLink="/contact" routerLinkActive="bg-main">Contact</a>
           </nav>
         </div>
 
         <div class="flex items-center gap-2">
           <button mat-icon-button (click)="toggleTheme()" aria-label="Toggle theme">
-            <mat-icon>{{ (modeService.mode$ | async) === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
+            <img [ngSrc]="modeService.getCurrentMode() === 'dark' ? '/assets/svg/moon.svg' : '/assets/svg/sun.svg'"  alt="Theme" width="24" height="24"/>
           </button>
 
           <button mat-icon-button class="md:hidden" [matMenuTriggerFor]="menu" aria-label="Menu">
-            <mat-icon>menu</mat-icon>
+            <img [ngSrc]="'/assets/svg/menu.svg'" alt="Menu" width="24" height="24"/>
           </button>
 
           <mat-menu #menu="matMenu">
@@ -55,7 +56,7 @@ import {ModeService} from '../../services/mode.service';
           </mat-menu>
         </div>
       </div>
-    </mat-toolbar>
+    </div>
   `,
 })
 export class HeaderComponent {

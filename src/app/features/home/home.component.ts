@@ -21,9 +21,7 @@ import { gsap } from 'gsap'; // Add GSAP for advanced animations
   template: `
     <div class="home-container">
       <!-- Interactive 3D Hero Section -->
-      <section class="hero-section" #heroSection>
-        <div class="parallax-layer back-layer" #backLayer></div>
-        <div class="parallax-layer mid-layer" #midLayer></div>
+      <section class="hero-section">
 
         <div class="content-container" @fadeInStagger>
           <div class="profile-container">
@@ -79,7 +77,6 @@ import { gsap } from 'gsap'; // Add GSAP for advanced animations
               <div class="tech-icon">
                 <img [ngSrc]="tech.logo" [alt]="tech.name" height="32" width="32"/>
               </div>
-              <span class="tech-name">{{ tech.name }}</span>
             </div>
           </div>
         </div>
@@ -96,9 +93,9 @@ import { gsap } from 'gsap'; // Add GSAP for advanced animations
       overflow-x: hidden;
     }
 
-    /* Hero Section with Parallax */
+
     .hero-section {
-      height: 100vh;
+      height: 69vh;
       width: 100%;
       position: relative;
       overflow: hidden;
@@ -107,24 +104,6 @@ import { gsap } from 'gsap'; // Add GSAP for advanced animations
       perspective: 1000px;
     }
 
-    .parallax-layer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      will-change: transform;
-    }
-
-    .back-layer {
-      background: radial-gradient(circle at center, var(--color-highlight) 0%, var(--color-background) 70%);
-      opacity: 0.3;
-    }
-
-    .mid-layer {
-      background: url('/assets/svg/grid.svg');
-      opacity: 0.1;
-    }
 
     .content-container {
       display: flex;
@@ -252,7 +231,6 @@ import { gsap } from 'gsap'; // Add GSAP for advanced animations
     /* Tech Stack Orbit */
     .tech-stack-section {
       padding: 6rem 2rem;
-      background: linear-gradient(180deg, var(--color-background), var(--color-shading) 30%, var(--color-background));
       position: relative;
       min-height: 80vh;
       display: flex;
@@ -274,6 +252,7 @@ import { gsap } from 'gsap'; // Add GSAP for advanced animations
       max-width: 600px;
       height: 600px;
       margin: 0 auto;
+      overflow: hidden;
     }
 
     .orbit-center {
@@ -302,6 +281,7 @@ import { gsap } from 'gsap'; // Add GSAP for advanced animations
       height: 100%;
       border-radius: 50%;
       border: 1px dashed var(--color-border);
+      overflow: visible;
     }
 
     .tech-item {
@@ -310,12 +290,13 @@ import { gsap } from 'gsap'; // Add GSAP for advanced animations
       left: 45%;
       width: 60px;
       height: 60px;
-      background: var(--color-container);
+      background: var(--color-main);
       border-radius: 50%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      transform: translate(-50%, -50%);
       transition: all 0.3s ease;
       cursor: pointer;
       z-index: 2;
@@ -337,16 +318,6 @@ import { gsap } from 'gsap'; // Add GSAP for advanced animations
       height: 32px;
     }
 
-    .tech-name {
-      font-size: 0.7rem;
-      margin-top: 0.2rem;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .tech-item:hover .tech-name {
-      opacity: 1;
-    }
 
     .tech-details {
       margin-top: 3rem;
@@ -425,9 +396,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   selectedTech: any = null;
 
   // Element references for animations
-  @ViewChild('heroSection') heroSection!: ElementRef;
-  @ViewChild('backLayer') backLayer!: ElementRef;
-  @ViewChild('midLayer') midLayer!: ElementRef;
   @ViewChild('profileImage') profileImage!: ElementRef;
   @ViewChild('profileGlow') profileGlow!: ElementRef;
   @ViewChild('nameTitle') nameTitle!: ElementRef;
@@ -440,6 +408,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   // Inject services
   private stateService = inject(StateService);
   private themeService = inject(ThemeService);
+  private orbitAnimation: any;
+  private documentHidden = false;
 
   // Convert Observable to Signal (new Angular feature)
   theme = toSignal(this.themeService.theme$, { initialValue: 'default' });
@@ -453,41 +423,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   getTechItemStyle(index: number) {
     const angle = (360 / this.featuredTech.length) * index;
+    const radius = 250; // Distance from center
     return {
-      transform: `rotate(${angle}deg) translate(250px) rotate(-${angle}deg)`
+      transform: `rotate(${angle}deg) translate(${radius}px) rotate(-${angle}deg)`,
+      transformOrigin: 'center center'
     };
   }
 
+
   ngAfterViewInit() {
-    this.initParallaxEffect();
     this.initProfileAnimation();
     this.initTextAnimation();
     this.initOrbitAnimation();
   }
 
-  initParallaxEffect() {
-    document.addEventListener('mousemove', (e) => {
-      const { clientX, clientY } = e;
-      const { width, height } = this.heroSection.nativeElement.getBoundingClientRect();
-
-      const xPercent = (clientX / width - 0.5) * 2; // -1 to 1
-      const yPercent = (clientY / height - 0.5) * 2; // -1 to 1
-
-      gsap.to(this.backLayer.nativeElement, {
-        x: xPercent * 30,
-        y: yPercent * 30,
-        duration: 1,
-        ease: 'power2.out'
-      });
-
-      gsap.to(this.midLayer.nativeElement, {
-        x: xPercent * 60,
-        y: yPercent * 60,
-        duration: 1,
-        ease: 'power2.out'
-      });
-    });
-  }
 
   initProfileAnimation() {
     gsap.set(this.profileGlow.nativeElement, { opacity: 0 });
@@ -513,7 +462,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   initOrbitAnimation() {
-    gsap.to(this.orbitRing.nativeElement, {
+    // Kill any existing animations first
+    gsap.killTweensOf(this.orbitRing.nativeElement);
+
+    // Create and store the animation
+    this.orbitAnimation = gsap.to(this.orbitRing.nativeElement, {
       rotation: 360,
       duration: 80,
       repeat: -1,
@@ -555,7 +508,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   getTechDescription(techName: string): string {
-    // Mock descriptions - replace with real data
     const descriptions: Record<string, string> = {
       'Angular': 'I love its structure and powerful features for building dynamic web applications.',
       'React': 'My primary frontend framework - Used for building interactive user interfaces, especially for single-page applications.',
@@ -570,10 +522,62 @@ export class HomeComponent implements OnInit, AfterViewInit {
       'PostgreSQL': 'My preferred relational database for structured data storage and management.',
       'Python': 'My preferred language for AI and machine learning projects.',
       'JavaScript': 'My first language for frontend and backend development.',
-
-      // Add more as needed
     };
 
     return descriptions[techName] || `A key technology in my stack that I use for building modern web applications.`;
   }
+
+
+
+
+  ngOnDestroy() {
+    // Clean up event listeners when component is destroyed
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
+  }
+
+  handleVisibilityChange() {
+    if (document.hidden) {
+      this.documentHidden = true;
+    } else {
+      // Document is visible again
+      if (this.documentHidden) {
+        this.documentHidden = false;
+        this.restartAnimations();
+      }
+    }
+  }
+
+  restartAnimations() {
+    // Restart the orbit animation
+    if (this.orbitRing && this.orbitRing.nativeElement) {
+      // Kill any existing animations on this element
+      gsap.killTweensOf(this.orbitRing.nativeElement);
+
+      // Restart the animation
+      this.orbitAnimation = gsap.to(this.orbitRing.nativeElement, {
+        rotation: 360,
+        duration: 80,
+        repeat: -1,
+        ease: 'none',
+        transformOrigin: 'center center'
+      });
+    }
+
+
+    if (this.nameTitle && this.nameTitle.nativeElement &&
+      parseFloat(getComputedStyle(this.nameTitle.nativeElement).opacity) < 1) {
+      this.initTextAnimation();
+    }
+
+
+
+    if (this.profileImage && this.profileImage.nativeElement) {
+      gsap.to(this.profileImage.nativeElement, {
+        scale: 1,
+        opacity: 1,
+        duration: 0.5,
+      });
+    }
+  }
+
 }

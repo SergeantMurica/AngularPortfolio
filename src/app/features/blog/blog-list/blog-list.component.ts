@@ -48,39 +48,38 @@ gsap.registerPlugin(ScrollTrigger);
         <h1 class="blog-title" #blogTitle>My Blog</h1>
         <p class="blog-subtitle" #blogSubtitle>Thoughts, ideas, and discoveries from my journey</p>
 
-      <!-- Featured Article -->
-      <div class="featured-article" *ngIf="featuredPost$ | async as featured" #featuredArticle>
-        <div class="featured-card" [routerLink]="['/blog', featured.id]">
-          <div class="featured-image">
-            <img
-              [ngSrc]="featured.image"
-              [alt]="featured.title"
-              width="800"
-              height="400"
-              priority
-            />
-          </div>
-
-          <div class="featured-content">
-            <div class="featured-meta">
-              <div class="featured-date">{{featured.date | date:'mediumDate'}}</div>
-              <div class="featured-tag">Featured</div>
+        <!-- Featured Article -->
+        <div class="featured-article" *ngIf="featuredPost$ | async as featured" #featuredArticle>
+          <div class="featured-card" [routerLink]="['/blog', featured.id]">
+            <div class="featured-image">
+              <img
+                [ngSrc]="featured.image"
+                [alt]="featured.title"
+                width="800"
+                height="400"
+                priority
+              />
             </div>
 
-            <h2 class="featured-title">{{featured.title}}</h2>
-            <p class="featured-excerpt">{{featured.excerpt}}</p>
+            <div class="featured-content">
+              <div class="featured-meta">
+                <div class="featured-date">{{ featured.date | date:'mediumDate' }}</div>
+                <div class="featured-tag">Featured</div>
+              </div>
 
-            <div class="featured-tags">
-              <span *ngFor="let tag of featured.tags.slice(0, 3)" class="tag">{{tag}}</span>
-            </div>
+              <h2 class="featured-title">{{ featured.title }}</h2>
+              <p class="featured-excerpt">{{ featured.excerpt }}</p>
 
-            <div class="featured-read-more">
-              <span>Read Article</span>
-              <mat-icon>arrow_forward</mat-icon>
+              <div class="featured-tags">
+                <span *ngFor="let tag of featured.tags.slice(0, 3)" class="tag">{{ tag }}</span>
+              </div>
+
+              <div class="featured-read-more">
+                <span>Read Article</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
 
         <!-- Search and Filter -->
@@ -140,19 +139,19 @@ gsap.registerPlugin(ScrollTrigger);
                     width="400"
                     height="250"
                   />
-                  <div class="card-date">{{post.date | date:'mediumDate'}}</div>
+                  <div class="card-date">{{ post.date | date:'mediumDate' }}</div>
                 </div>
 
                 <div class="card-content">
-                  <h2 class="card-title">{{post.title}}</h2>
-                  <p class="card-excerpt">{{post.excerpt}}</p>
+                  <h2 class="card-title">{{ post.title }}</h2>
+                  <p class="card-excerpt">{{ post.excerpt }}</p>
 
                   <div class="card-tags">
-                    <span *ngFor="let tag of post.tags.slice(0, 3)" class="tag">{{tag}}</span>
+                    <span *ngFor="let tag of post.tags.slice(0, 3)" class="tag">{{ tag }}</span>
                   </div>
 
                   <div class="card-footer">
-                    <span class="read-time">{{getReadTime(post)}} min read</span>
+                    <span class="read-time">{{ getReadTime(post) }} min read</span>
                     <span class="read-more">Read More</span>
                   </div>
                 </div>

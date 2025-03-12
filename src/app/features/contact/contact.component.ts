@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,6 +11,8 @@ import { ContactService } from '../../core/services/contact.service';
 import { finalize } from 'rxjs/operators';
 import { animate, style, transition, trigger, query, stagger, group } from '@angular/animations';
 import { gsap } from 'gsap';
+import {contact} from '../../../utils/resumeData';
+import {SvgIconComponent} from '../../../utils/svg-icon-controller';
 
 @Component({
   selector: 'app-contact',
@@ -23,7 +25,9 @@ import { gsap } from 'gsap';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    NgOptimizedImage,
+    SvgIconComponent
   ],
   template: `
     <div class="contact-wrapper">
@@ -44,7 +48,8 @@ import { gsap } from 'gsap';
               <div class="card-header">
                 <h2 class="text-2xl font-semibold mb-6">Let's Connect</h2>
                 <p class="mb-8">
-                  I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+                  I'm always open to discussing new projects, creative ideas, or opportunities to be part of your
+                  vision.
                 </p>
               </div>
 
@@ -54,11 +59,11 @@ import { gsap } from 'gsap';
                      (mouseenter)="highlightMethod(i)"
                      (mouseleave)="unhighlightMethod(i)">
                   <div class="method-icon">
-                    <mat-icon>{{method.icon}}</mat-icon>
+                    <img [ngSrc]="'/assets/svg/' + method.icon" [alt]="method.label" width="24" height="24">
                   </div>
                   <div class="method-content">
-                    <h3>{{method.label}}</h3>
-                    <a [href]="method.link" class="method-value">{{method.value}}</a>
+                    <h3>{{ method.label }}</h3>
+                    <a [href]="method.link" class="method-value">{{ method.value }}</a>
                   </div>
                 </div>
               </div>
@@ -72,7 +77,7 @@ import { gsap } from 'gsap';
                      class="social-icon"
                      (mouseenter)="animateSocialIcon($event)"
                      (mouseleave)="resetSocialIcon($event)">
-                    <mat-icon>{{social.icon}}</mat-icon>
+                    <img [ngSrc]="'/assets/svg/' + social.icon" [alt]="social.key" width="24" height="24">
                   </a>
                 </div>
               </div>
@@ -524,17 +529,13 @@ export class ContactComponent implements AfterViewInit {
 
   // Contact information
   contactMethods = [
-    { icon: 'email', label: 'Email', value: 'alex@example.com', link: 'mailto:alex@example.com' },
-    { icon: 'phone', label: 'Phone', value: '+1 (123) 456-7890', link: 'tel:+11234567890' },
-    { icon: 'location_on', label: 'Location', value: 'San Francisco, CA', link: '#' }
+    { icon: 'email.svg', label: 'Email', value: 'castroalexander1995@outlook.com', link: 'mailto:castroalexander1995@outlook.com' },
+    { icon: 'phone.svg', label: 'Phone', value: '+1 (123) 456-7890', link: 'tel:+11234567890' },
+    { icon: 'location.svg', label: 'Location', value: 'San Francisco, CA', link: '#' }
   ];
 
   // Social links
-  socialLinks = [
-    { icon: 'code', url: 'https://github.com' },
-    { icon: 'business', url: 'https://linkedin.com' },
-    { icon: 'chat', url: 'https://twitter.com' }
-  ];
+  socialLinks = [...contact];
 
   // Element references for animations
   @ViewChild('contactTitle') contactTitle!: ElementRef;

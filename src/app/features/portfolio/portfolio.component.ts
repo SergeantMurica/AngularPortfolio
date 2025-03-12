@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, OnInit, inject } from '@angular/core';
+import {Component, AfterViewInit, ViewChild, ElementRef, OnInit, inject, ChangeDetectorRef} from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,7 +27,7 @@ gsap.registerPlugin(ScrollTrigger);
   template: `
     <div class="project-modal">
       <div class="modal-header">
-        <h2>{{project.title}}</h2>
+        <h2>{{ project.title }}</h2>
         <button mat-icon-button (click)="closeDialog()">
           <mat-icon>close</mat-icon>
         </button>
@@ -47,18 +47,18 @@ gsap.registerPlugin(ScrollTrigger);
         <div class="project-details">
           <div class="project-description">
             <h3>Overview</h3>
-            <p>{{project.description}}</p>
+            <p>{{ project.description }}</p>
 
             <div class="project-features" *ngIf="project.tags">
               <h3>Key Features</h3>
               <ul>
-                <li *ngFor="let feature of project.tags">{{feature}}</li>
+                <li *ngFor="let feature of project.tags">{{ feature }}</li>
               </ul>
             </div>
 
             <div class="project-challenges" *ngIf="project.challenges">
               <h3>Challenges & Solutions</h3>
-              <p>{{project.challenges}}</p>
+              <p>{{ project.challenges }}</p>
             </div>
           </div>
 
@@ -66,7 +66,7 @@ gsap.registerPlugin(ScrollTrigger);
             <h3>Technologies Used</h3>
             <div class="tech-tags">
               <span *ngFor="let tech of project.tags" class="tech-tag">
-                {{tech.tag}}
+                {{ tech.tag }}
               </span>
             </div>
           </div>
@@ -77,8 +77,8 @@ gsap.registerPlugin(ScrollTrigger);
                target="_blank"
                mat-raised-button
                color="primary">
-              <mat-icon>{{link.icon}}</mat-icon>
-              {{getLinkLabel(link.icon)}}
+              <img [ngSrc]="'/assets/svg/' + link.icon" width="24" height="24" alt="{{link.icon}}"/>
+              {{ getLinkLabel(link.icon) }}
             </a>
           </div>
         </div>
@@ -209,10 +209,9 @@ export class ProjectDetailsComponent {
 
   getLinkLabel(icon: string): string {
     const labels: Record<string, string> = {
-      'github': 'View Code',
-      'language': 'Live Demo',
-      'article': 'Documentation',
-      'link': 'Visit Project'
+      'github.svg': 'View Code',
+      'link.svg': 'Live Demo',
+      'blog.svg': 'Documentation',
     };
 
     return labels[icon] || 'View Project';
@@ -250,7 +249,7 @@ export class ProjectDetailsComponent {
               class="filter-button"
               [class.active]="selectedCategory === category"
               (click)="setCategory(category)">
-              {{category}}
+              {{ category }}
             </button>
           </div>
         </div>
@@ -279,7 +278,7 @@ export class ProjectDetailsComponent {
                 <div class="project-actions">
                   <button mat-mini-fab color="primary"
                           (click)="openProjectDetails(project); $event.stopPropagation()">
-                    <mat-icon>fullscreen</mat-icon>
+                    <img [ngSrc]="'/assets/svg/expand.svg'" width="24" height="24" alt="View Project"/>
                   </button>
 
                   <a *ngFor="let link of project.links"
@@ -287,22 +286,22 @@ export class ProjectDetailsComponent {
                      target="_blank"
                      mat-mini-fab
                      (click)="$event.stopPropagation()">
-                    <mat-icon>{{link.icon}}</mat-icon>
+                    <img [ngSrc]="'/assets/svg/' + link.icon" width="24" height="24" alt="{{link.icon}}"/>
                   </a>
                 </div>
               </div>
             </div>
 
             <div class="project-content">
-              <h2 class="project-title">{{project.title}}</h2>
-              <p class="project-excerpt">{{getExcerpt(project.description)}}</p>
+              <h2 class="project-title">{{ project.title }}</h2>
+              <p class="project-excerpt">{{ getExcerpt(project.description) }}</p>
 
               <div class="project-tags">
                 <span *ngFor="let tag of project.tags.slice(0, 3)" class="tag">
-                  {{tag.tag}}
+                  {{ tag.tag }}
                 </span>
                 <span *ngIf="project.tags.length > 3" class="more-tags">
-                  +{{project.tags.length - 3}}
+                  +{{ project.tags.length - 3 }}
                 </span>
               </div>
             </div>
@@ -589,8 +588,6 @@ export class ProjectDetailsComponent {
 export class PortfolioComponent implements OnInit, AfterViewInit {
   projects: Portfolio[] = [...portfolio].map(project => ({
     ...project,
-    // Add mock data for enhanced project details
-    category: this.getCategoryForProject(project),
   }));
 
   // Reactive state management
@@ -624,14 +621,18 @@ export class PortfolioComponent implements OnInit, AfterViewInit {
   // Services
   private dialog = inject(MatDialog);
 
-  ngOnInit() {}
-
+  ngOnInit() {
+    setTimeout(() => {
+      this.categorySubject.next('All Projects');
+    });
+  }
   ngAfterViewInit() {
-    this.initAnimations();
+    setTimeout(() => {
+      this.initAnimations();
+    }, 100);
   }
 
   initAnimations() {
-    // Header animations
     gsap.fromTo(this.portfolioTitle.nativeElement,
       { y: -50, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' }
@@ -642,29 +643,42 @@ export class PortfolioComponent implements OnInit, AfterViewInit {
       { y: 0, opacity: 1, duration: 0.8, delay: 0.3, ease: 'power2.out' }
     );
 
-    // Set up scroll-based animations for project cards
     this.animateProjectsOnScroll();
   }
 
   animateProjectsOnScroll() {
-    const cards = this.projectsGrid.nativeElement.querySelectorAll('.project-card-wrapper');
+    setTimeout(() => {
+      const cards = this.projectsGrid.nativeElement.querySelectorAll('.project-card-wrapper');
 
-    gsap.fromTo(cards,
-      { y: 50, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        stagger: 0.1,
-        duration: 0.6,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: this.projectsGrid.nativeElement,
-          start: 'top bottom-=100',
-          toggleActions: 'play none none none'
-        }
+      if (cards.length === 0) {
+        // If no cards are found, try again in a moment
+        setTimeout(() => this.animateProjectsOnScroll(), 100);
+        return;
       }
-    );
+
+      gsap.fromTo(cards,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.1,
+          duration: 0.6,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: this.projectsGrid.nativeElement,
+            start: 'top bottom-=100',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+
+      // Ensure all cards are visible even if scroll trigger doesn't fire
+      setTimeout(() => {
+        gsap.set(cards, { opacity: 1, y: 0 });
+      }, 1000);
+    }, 0);
   }
+
 
   setCategory(category: string) {
     this.categorySubject.next(category);
@@ -725,17 +739,4 @@ export class PortfolioComponent implements OnInit, AfterViewInit {
     return description.length > 100 ? description.substring(0, 100) + '...' : description;
   }
 
-  // Helper methods to generate mock data for enhanced project details
-  private getCategoryForProject(project: Portfolio): string {
-    // Extract category based on project tags
-    const tagNames = project.tags.map(t => t.tag.toLowerCase());
-
-    if (tagNames.some(t => t.includes('react') || t.includes('next'))) return 'React';
-    if (tagNames.some(t => t.includes('angular'))) return 'Angular';
-    if (tagNames.some(t => t.includes('backend') || t.includes('node'))) return 'Backend';
-    if (tagNames.some(t => t.includes('game'))) return 'Game Dev';
-    if (tagNames.some(t => t.includes('ui') || t.includes('design'))) return 'UI/UX';
-
-    return 'Web Dev';
-  }
 }

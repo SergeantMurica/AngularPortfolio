@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
+import {Component, AfterViewInit, ViewChild, ElementRef, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
@@ -10,6 +10,7 @@ import {ScrollDispatcher, CdkScrollableModule} from '@angular/cdk/scrolling';
 import {map, filter, distinctUntilChanged} from 'rxjs/operators';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
+import {ContactService} from '../../core/services/contact.service';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,20 +40,10 @@ interface Experience {
     <div class="resume-container">
       <!-- Interactive Background -->
       <div class="resume-bg">
-        <div class="resume-bg-grid"></div>
         <div class="resume-bg-glow"></div>
       </div>
 
-      <!-- Floating Navigation Pills -->
-      <div class="resume-nav">
-        <button
-          *ngFor="let section of sections; let i = index"
-          class="resume-nav-pill"
-          [class.active]="activeSection === i"
-          (click)="scrollToSection(i)">
-          {{section}}
-        </button>
-      </div>
+
 
       <!-- Main Content -->
       <div class="resume-content" cdkScrollable #scrollContainer>
@@ -62,7 +53,7 @@ interface Experience {
             <div class="tag" *ngFor="let tag of allTags"
                  [class.active]="selectedTags.includes(tag)"
                  (click)="toggleTag(tag)">
-              {{tag}}
+              {{ tag }}
             </div>
           </div>
         </div>
@@ -73,10 +64,10 @@ interface Experience {
             <div class="timeline-progress" #timelineProgress></div>
 
             <div *ngFor="let job of filteredExperience; let i = even"
-                class="timeline-item"
-                [class.timeline-right]="i"
-                #timelineItems
-                @timelineAnimation>
+                 class="timeline-item"
+                 [class.timeline-right]="i"
+                 #timelineItems
+                 @timelineAnimation>
 
               <div class="timeline-dot" [class.highlighted]="job.isActive"></div>
 
@@ -97,8 +88,8 @@ interface Experience {
 
                   <div class="tech-container">
                     <span *ngFor="let tech of job.technologies"
-                         class="tech-tag"
-                         [class.highlighted]="selectedTags.includes(tech)">
+                          class="tech-tag"
+                          [class.highlighted]="selectedTags.includes(tech)">
                       {{ tech }}
                     </span>
                   </div>
@@ -166,8 +157,9 @@ interface Experience {
 
         <!-- Download CV Button -->
         <div class="download-button">
-          <button mat-raised-button color="primary" class="cv-button">
-            <mat-icon>download</mat-icon> Download Full Resume
+          <button mat-raised-button color="primary" (click)="downloadCV()" class="cv-button" #downloadBtn>
+            Download
+            Resume
           </button>
         </div>
       </div>
@@ -197,18 +189,7 @@ interface Experience {
       overflow: hidden;
     }
 
-    .resume-bg-grid {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image:
-        linear-gradient(var(--color-border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
-      background-size: 20px 20px;
-      opacity: 0.1;
-    }
+
 
     .resume-bg-glow {
       position: absolute;
@@ -223,60 +204,7 @@ interface Experience {
       z-index: -1;
     }
 
-    /* Navigation Pills */
-    .resume-nav {
-      position: fixed;
-      top: 50%;
-      right: 2rem;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      z-index: 100;
-    }
 
-    .resume-nav-pill {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--color-border);
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      position: relative;
-      transition: all 0.3s ease;
-    }
-
-    .resume-nav-pill:hover, .resume-nav-pill.active {
-      background: var(--color-main);
-      transform: scale(1.5);
-    }
-
-    .resume-nav-pill:hover::after {
-      content: attr(data-section);
-      position: absolute;
-      right: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      margin-right: 0.5rem;
-      white-space: nowrap;
-      font-size: 0.75rem;
-      opacity: 1;
-    }
-
-    .resume-nav-pill::after {
-      content: attr(data-section);
-      position: absolute;
-      right: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      margin-right: 0.5rem;
-      color: var(--color-headingText);
-      white-space: nowrap;
-      font-size: 0.75rem;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
 
     /* Main Content Area */
     .resume-content {
@@ -586,11 +514,10 @@ interface Experience {
       box-shadow: 0 10px 20px rgba(0,0,0,0.15);
     }
 
+
     /* Mobile styles */
     @media (max-width: 768px) {
-      .resume-nav {
-        display: none;
-      }
+
 
       .timeline::before {
         left: 2rem;
@@ -642,9 +569,7 @@ interface Experience {
   ]
 })
 export class ResumeComponent implements AfterViewInit {
-  // Section names for navigation
-  sections = ['Experience', 'Education', 'Skills'];
-  activeSection = 0;
+
 
   // Experience filtering
   allTags: string[] = [];
@@ -655,6 +580,10 @@ export class ResumeComponent implements AfterViewInit {
   @ViewChild('timeline') timeline!: ElementRef;
   @ViewChild('timelineProgress') timelineProgress!: ElementRef;
   @ViewChild('skillBars', { read: ElementRef }) skillBars!: ElementRef;
+  @ViewChild('downloadBtn') downloadBtn!: ElementRef;
+
+
+  private contactService = inject(ContactService);
 
   // Your existing data
   experience = [
@@ -823,11 +752,7 @@ export class ResumeComponent implements AfterViewInit {
           return currentSection;
         }),
         distinctUntilChanged(),
-        filter(section => section !== this.activeSection)
       )
-      .subscribe(section => {
-        this.activeSection = section;
-      });
   }
 
   initAnimations() {
@@ -836,13 +761,6 @@ export class ResumeComponent implements AfterViewInit {
       trigger: this.timeline.nativeElement,
       start: 'top center',
       end: 'bottom center',
-      onUpdate: (self) => {
-        gsap.to(this.timelineProgress.nativeElement, {
-          scaleY: self.progress,
-          duration: 0.1,
-          ease: 'none'
-        });
-      }
     });
 
     // Animate skill bars
@@ -862,14 +780,6 @@ export class ResumeComponent implements AfterViewInit {
     });
   }
 
-  scrollToSection(index: number) {
-    this.activeSection = index;
-
-    const sections = document.querySelectorAll('.resume-section');
-    if (sections[index]) {
-      sections[index].scrollIntoView({ behavior: 'smooth' });
-    }
-  }
 
   toggleTag(tag: string) {
     if (this.selectedTags.includes(tag)) {
@@ -894,9 +804,74 @@ export class ResumeComponent implements AfterViewInit {
       'Node.js': 8,
       'HTML5': 9,
       'CSS3': 8,
+      'SCSS': 7,
+      'Firebase': 8,
+      'MongoDB': 7,
+      'Git': 9,
+      'Webpack': 8,
+      'Jest': 7,
+      'Tailwind CSS': 8,
+      'Material UI': 7,
+      'Bootstrap': 6,
+      'Vue.js': 6,
+      'Next.js': 6,
+      'Gatsby': 5,
+      'Lit': 5,
+      'Svelte': 5,
+      'Preact': 5,
+      'Unreal Engine': 8,
+      'C++': 8,
+      'C': 7,
+      'Python': 9,
+      'TensorFlow': 8,
+      'OpenAI API': 7,
+      'Natural Language Processing (NLP)': 6,
+      'Big O Notation': 9,
+      'Sorting Algorithms': 8,
+      'Graph Algorithms': 7,
+      'Dynamic Programming': 6,
+      'AWS': 8,
+      'Docker': 7,
+      'GraphQL': 6,
+      'Apollo': 5,
+      'JIRA': 8,
+      'Agile': 7,
+      'Scrum': 6,
+      'CI/CD': 5,
+      'Express': 8,
+      'RESTful APIs': 7,
+      'Postman': 6,
+      'ESLint': 9,
+      'Prettier': 9,
+      'PostgreSQL': 8,
+      'GitLab': 7,
+      'GitHub': 8,
+      'Swift': 7,
+      'Vercel': 8,
+      'Storybook': 7,
+      'Cypress': 6,
+      'Nx': 5,
+
+      // ...
       // Add more skills as needed
     };
 
-    return skillLevels[skill] || Math.floor(Math.random() * 5) + 5; // Default 5-10 range
+    return skillLevels[skill] || 0;
+  }
+
+  downloadCV() {
+    gsap.timeline()
+      .to(this.downloadBtn.nativeElement, {
+        scale: 0.95,
+        duration: 0.1,
+        ease: 'power2.in'
+      })
+      .to(this.downloadBtn.nativeElement, {
+        scale: 1,
+        duration: 0.2,
+        ease: 'elastic.out(1, 0.3)'
+      });
+
+    this.contactService.downloadCV();
   }
 }

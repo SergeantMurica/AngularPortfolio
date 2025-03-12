@@ -1,9 +1,10 @@
 import 'tailwindcss/typography'
-import 'src/app.css'
+import 'src/styles.scss'
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{html,ts}"],
+  content: ["./src/**/*.{html,ts,svg}",
+  "./public/**/*.{html,ts,svg}"],
     darkMode: "class",
     theme: {
         extend: {

@@ -71,8 +71,7 @@ export const home: Home = {
             "others navigate life’s challenges, building communities focused on awareness and support. " +
             "This mission has shaped my commitment to leveraging technology to empower creators and foster positivity.",
         end:
-            "I aspire to advance my career as a developer by designing tools and platforms that enable content " +
-            "creators to connect, inspire, and bring more joy into the lives of their audiences.",
+            "I aspire to advance my career as a developer by designing tools and platforms that enable content creators to connect, inspire, and bring more joy into the lives of their audiences.",
     },
     services: {
         title: "My Services",
