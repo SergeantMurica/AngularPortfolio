@@ -9,10 +9,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ContactService } from '../../core/services/contact.service';
 import { finalize } from 'rxjs/operators';
-import { animate, style, transition, trigger, query, stagger, group } from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 import { gsap } from 'gsap';
 import {contact} from '../../../utils/resumeData';
-import {SvgIconComponent} from '../../../utils/svg-icon-controller';
 
 @Component({
   selector: 'app-contact',
@@ -27,7 +26,6 @@ import {SvgIconComponent} from '../../../utils/svg-icon-controller';
     MatIconModule,
     MatSnackBarModule,
     NgOptimizedImage,
-    SvgIconComponent
   ],
   template: `
     <div class="contact-wrapper">
