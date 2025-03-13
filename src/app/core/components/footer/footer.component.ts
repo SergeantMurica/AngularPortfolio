@@ -36,7 +36,7 @@ import {contact} from '../../../../utils/resumeData';
 })
 export class FooterComponent {
 
-  socialLinks = [...contact];
+  socialLinks = contact.contacts;
 
   animateSocialIcon(event: MouseEvent) {
     const icon = event.currentTarget as HTMLElement;

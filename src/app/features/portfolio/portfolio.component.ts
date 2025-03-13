@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, ViewChild, ElementRef, OnInit, inject, ChangeDetectorRef} from '@angular/core';
+import {Component, AfterViewInit, ViewChild, ElementRef, OnInit, inject} from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -278,7 +278,7 @@ export class ProjectDetailsComponent {
                 <div class="project-actions">
                   <button mat-mini-fab color="primary"
                           (click)="openProjectDetails(project); $event.stopPropagation()">
-                    <img [ngSrc]="'/assets/svg/expand.svg'" width="24" height="24" alt="View Project"/>
+                    <mat-icon>visibility</mat-icon>
                   </button>
 
                   <a *ngFor="let link of project.links"
@@ -286,7 +286,7 @@ export class ProjectDetailsComponent {
                      target="_blank"
                      mat-mini-fab
                      (click)="$event.stopPropagation()">
-                    <img [ngSrc]="'/assets/svg/' + link.icon" width="24" height="24" alt="{{link.icon}}"/>
+                    <span [ngClass]="link.icon" style="width: 1.5em; height: 1.5em;" class="bg-headingText justify-center align-center items-center"></span>
                   </a>
                 </div>
               </div>

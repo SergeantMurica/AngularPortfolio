@@ -7,7 +7,8 @@ import { animate, style, transition, trigger, query, stagger } from '@angular/an
 import { StateService } from '../../core/services/state.service';
 import { ThemeService } from '../../core/services/theme.service';
 import { toSignal } from '@angular/core/rxjs-interop'; // Angular's new Signals API
-import { gsap } from 'gsap'; // Add GSAP for advanced animations
+import { gsap } from 'gsap';
+import {toolTicker} from '../../../utils/resumeData'; // Add GSAP for advanced animations
 
 @Component({
   selector: 'app-home',
@@ -75,11 +76,12 @@ import { gsap } from 'gsap'; // Add GSAP for advanced animations
                  (click)="selectTech(tech)"
                  #techItems>
               <div class="tech-icon">
-                <img [ngSrc]="tech.logo" [alt]="tech.name" height="32" width="32"/>
+                <span [ngClass]="tech.icon" style="width: 1.5em; height: 1.5em;" class="bg-background animate-pulse"></span>
               </div>
             </div>
           </div>
         </div>
+
 
         <div class="tech-details" #techDetails *ngIf="selectedTech" @fadeSlide>
           <h3>{{ selectedTech.name }}</h3>
@@ -362,37 +364,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     start: "I am a dedicated full-stack developer with a diverse background in military service, education, and social media marketing. My passion lies in crafting efficient and innovative web solutions that make a meaningful impact."
   };
 
-  techStack = [
-    {name: "SQLite", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/sqlite.svg"},
-    {name: "Express", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/express.svg"},
-    {name: "Python", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/python.svg"},
-    {name: "C++", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/cplusplus.svg"},
-    {name: "Unreal Engine", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/unrealengine.svg"},
-    {name: "Material-UI", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/material-ui.svg"},
-    {name: "DaVinci Resolve", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/davinciresolve.svg"},
-    {name: "React", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/react.svg"},
-    {name: "Firebase", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/firebase.svg"},
-    {name: "Buffer", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/buffer.svg"},
-    {name: "MongoDB", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/mongodb.svg"},
-    {name: "Git", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/git.svg"},
-    {name: "Swift", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/swift.svg"},
-    {name: "GitLab", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/gitlab.svg"},
-    {name: "Node.JS", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/nodejs.svg"},
-    {name: "GitHub", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/github.svg"},
-    {name: "Postgres", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/postgresql.svg"},
-    {name: "CSS", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/css3.svg"},
-    {name: "Hootsuite", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/hootsuite.svg"},
-    {name: "React Native", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/react.svg"},
-    {name: "Vercel", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/vercel.svg"},
-    {name: "HTML", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/html5.svg"},
-    {name: "C", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/c.svg"},
-    {name: "JavaScript", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/javascript.svg"},
-    {name: "TypeScript", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/typescript.svg"},
-    {name: "MySQL", logo: "https://cdn.jsdelivr.net/npm/simple-icons/icons/mysql.svg"},
-  ];
+  techStack = [...toolTicker];
 
   // Featured tech to show in the orbit
-  featuredTech = this.techStack.slice(0, 12);
+  featuredTech = this.techStack.filter(tech => tech.top);
   selectedTech: any = null;
 
   // Element references for animations
@@ -522,6 +497,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
       'PostgreSQL': 'My preferred relational database for structured data storage and management.',
       'Python': 'My preferred language for AI and machine learning projects.',
       'JavaScript': 'My first language for frontend and backend development.',
+      'CSS': 'Nearly every web developer\'s first styling language for web development.',
+      'HTML': 'The backbone of every web application - the structure and content of web pages.',
     };
 
     return descriptions[techName] || `A key technology in my stack that I use for building modern web applications.`;

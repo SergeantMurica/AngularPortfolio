@@ -7,10 +7,11 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatChipsModule} from '@angular/material/chips';
 import {animate, style, transition, trigger, group, query, stagger} from '@angular/animations';
 import {ScrollDispatcher, CdkScrollableModule} from '@angular/cdk/scrolling';
-import {map, filter, distinctUntilChanged} from 'rxjs/operators';
+import {map, distinctUntilChanged} from 'rxjs/operators';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {ContactService} from '../../core/services/contact.service';
+import {resume, skills} from '../../../utils/resumeData';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -138,16 +139,6 @@ interface Experience {
                 <div *ngFor="let skill of category.items; let j = index" class="skill-item">
                   <div class="skill-header">
                     <span class="skill-name">{{ skill }}</span>
-                    <span class="skill-level"
-                          [attr.data-level]="getSkillLevel(skill)">
-                      {{ getSkillLevel(skill) }}/10
-                    </span>
-                  </div>
-
-                  <div class="skill-bar">
-                    <div class="skill-progress"
-                         [style.width.%]="getSkillLevel(skill) * 10"
-                         #skillBars></div>
                   </div>
                 </div>
               </div>
@@ -471,24 +462,6 @@ interface Experience {
       font-weight: 500;
     }
 
-    .skill-level {
-      font-size: 0.8rem;
-      color: var(--color-captionText);
-    }
-
-    .skill-bar {
-      height: 8px;
-      background: var(--color-shading);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .skill-progress {
-      height: 100%;
-      background: linear-gradient(90deg, var(--color-main), var(--color-highlight));
-      border-radius: 4px;
-      width: 0; /* Will be animated */
-    }
 
     /* Download Button */
     .download-button {
@@ -586,131 +559,9 @@ export class ResumeComponent implements AfterViewInit {
   private contactService = inject(ContactService);
 
   // Your existing data
-  experience = [
-    {
-      title: 'Freelance Developer',
-      company: 'Self-Employed',
-      period: '2024 - Present',
-      location: 'Phoenix, AZ',
-      description: 'Aided companies in building scalable and efficient web applications. Range of projects from personal websites to a complex nonprofit platforms.',
-      technologies: ['React', 'TypeScript', 'Material UI', 'Jest']
-    },
-    {
-      title: 'The Pantheon Dev',
-      company: 'Self-Employed',
-      period: '2025 - Present',
-      location: 'Phoenix, AZ',
-      description: 'Currently developing a new UI library for React based projects, called Maia UI, and a productivity application called ChronosBoard.',
-      technologies: ['React', 'TypeScript', 'SCSS', 'PostCSS', 'Tailwind CSS', 'Jest', 'Storybook', 'UI Testing', 'UI/UX Design']
-    },
-    {
-      title: 'Content Creator',
-      company: 'Self-Employed',
-      period: '04/2021 - 12/2024',
-      location: 'Phoenix, AZ',
-      description: 'Produce content focused on mental health awareness and suicide prevention through gaming and entertainment.',
-      technologies: ['DaVinci Resolve', 'TikTok', 'YouTube', 'Instagram']
-    },
-    {
-      title: 'Sales Professional',
-      company: 'Bell Honda',
-      period: '10/2023 - 11/2023',
-      location: 'Phoenix, AZ',
-      description: 'Engaged with clients to identify needs and deliver desired vehicle.',
-      technologies: ['Salesforce', 'CRM', 'Customer Service']
-    },
-    {
-      title: 'Director of Development',
-      company: 'Veterans Gaming & Mental Health Mission',
-      period: '01/2023 - 05/2023',
-      location: 'Online',
-      description: 'Led development initiatives to secure funding and build partnerships for the organization. While also designing and implemented strategic plans to enhance organizational growth.',
-      technologies: ['Project Management', 'Fundraising', 'Partnership Building']
-    },
-    {
-      title: 'Volunteer Director of Marketing',
-      company: 'Veterans Gaming & Mental Health Mission',
-      period: '05/2022 - 01/2023',
-      location: 'Online',
-      description: 'Managed SEO strategies, advertising campaigns, and the social media presence of the organization. Also redesigned the organization\'s website to improve functionality and engagement.',
-      technologies: ['SEO', 'Advertising', 'Social Media Management', 'Website Design']
-    },
-    {
-      title: 'Social Media Coordinator',
-      company: 'Liftable Media',
-      period: '03/2022 - 8/2022',
-      location: 'Phoenix, AZ',
-      description: 'Planned, created, and scheduled content for Western Journal News. Helped establish a successful workflow for producing and distributing news shorts on TikTok, YouTube, and Instagram Reels.',
-      technologies: ['Content Creation', 'Social Media Management', 'Video Editing']
-    },
-    {
-      title: 'Substitute Teacher',
-      company: 'DVUSD',
-      period: '09/2020 - 05/2021',
-      location: 'Phoenix, AZ',
-      description: 'Delivered flexible teaching solutions, adapting to various educational levels and classroom needs.',
-      technologies: ['Teaching', 'Classroom Management', 'Curriculum Development']
-    },
-    {
-      title: 'Volunteer Moderator/Event Manager',
-      company: 'JoshDub’s Discord Server',
-      period: '11/2019 - 05/2022',
-      location: 'Online',
-      description: 'Assisted in managing a +90,000 member online community, while organizing events.',
-      technologies: ['Community Management', 'Event Planning', 'Discord Bot Development']
-    },
-    {
-      title: 'Combat Medic/Healthcare Specialist',
-      company: 'U.S. Army',
-      period: '06/2013 - 06/2018',
-      location: 'Fort Bragg, NC & Vicenza, Italy',
-      description: 'Delivered emergency medical treatment and primary care for soldiers in both normal, and critical situations.',
-      technologies: ['EMT', 'Military Medicine', 'Combat Support']
-    }
-  ].map(exp => ({ ...exp, isActive: false }));
-  education = [
-    {
-      degree: 'Associates of Applied Science in Web Development',
-      institution: 'Glendale Community College',
-      period: '09/2024 - Present',
-      location: 'Glendale, AZ',
-      description: 'Started with basic HTML, CSS, and JavaScript Knowledge, the desire to learn how to code professionally, quickly turned into a passion more than anything else.'
-    }
-    ,
-    {
-      degree: 'Bachelor of Science in Political Science',
-      institution: 'Methodist University',
-      period: '09/2018 - 05/2020',
-      location: 'Fayetteville, NC',
-      description: 'Completed with concentrations in International Relations, Public Administration, and a minor in History. While also completing Leadership Fellows and NSLS curriculum and requirements.'
-    }
-  ];
-  skills = [
-    {
-      category: 'Frontend',
-      items: ['Angular', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'SCSS', 'Tailwind CSS', 'Material UI', 'Bootstrap', 'React', 'Vue.js', 'Next.js', 'Gatsby', 'Lit', 'Svelte', 'Preact']
-    },
-    {
-      category: 'Tools & Methodologies',
-      items: ['Git', 'Webpack', 'Nx', 'JIRA', 'Agile', 'Scrum', 'CI/CD', 'Jest', 'Cypress', 'Storybook', 'ESLint', 'Prettier', 'Postman']
-    },
-    {
-      category: 'Backend & Others',
-      items: ['Node.js', 'Express', 'RESTful APIs', 'Firebase', 'MongoDB', 'AWS', 'Docker', 'GraphQL', 'Apollo']
-    },
-    {
-      category: 'AI & Machine Learning',
-      items: ['Python', 'TensorFlow', 'OpenAI API', 'Natural Language Processing (NLP)']
-    },
-    {
-      category: 'Algorithms & Data Structures',
-      items: ['Big O Notation', 'Sorting Algorithms', 'Graph Algorithms', 'Dynamic Programming']
-    },
-    {
-      category: 'Game Development',
-      items: ['Unreal Engine', 'C++', 'C', 'Python']
-    }
-  ];
+  experience = [...resume.work].map(exp => ({ ...exp, isActive: false }));
+  education = [...resume.education];
+  skills = [...skills.groups];
 
   // Computed properties
   get filteredExperience() {
@@ -794,70 +645,7 @@ export class ResumeComponent implements AfterViewInit {
     job.isActive = isActive;
   }
 
-  getSkillLevel(skill: string): number {
-    // Mock skill levels - in a real app, you'd have actual data
-    const skillLevels: Record<string, number> = {
-      'Angular': 9,
-      'TypeScript': 9,
-      'JavaScript': 8,
-      'React': 7,
-      'Node.js': 8,
-      'HTML5': 9,
-      'CSS3': 8,
-      'SCSS': 7,
-      'Firebase': 8,
-      'MongoDB': 7,
-      'Git': 9,
-      'Webpack': 8,
-      'Jest': 7,
-      'Tailwind CSS': 8,
-      'Material UI': 7,
-      'Bootstrap': 6,
-      'Vue.js': 6,
-      'Next.js': 6,
-      'Gatsby': 5,
-      'Lit': 5,
-      'Svelte': 5,
-      'Preact': 5,
-      'Unreal Engine': 8,
-      'C++': 8,
-      'C': 7,
-      'Python': 9,
-      'TensorFlow': 8,
-      'OpenAI API': 7,
-      'Natural Language Processing (NLP)': 6,
-      'Big O Notation': 9,
-      'Sorting Algorithms': 8,
-      'Graph Algorithms': 7,
-      'Dynamic Programming': 6,
-      'AWS': 8,
-      'Docker': 7,
-      'GraphQL': 6,
-      'Apollo': 5,
-      'JIRA': 8,
-      'Agile': 7,
-      'Scrum': 6,
-      'CI/CD': 5,
-      'Express': 8,
-      'RESTful APIs': 7,
-      'Postman': 6,
-      'ESLint': 9,
-      'Prettier': 9,
-      'PostgreSQL': 8,
-      'GitLab': 7,
-      'GitHub': 8,
-      'Swift': 7,
-      'Vercel': 8,
-      'Storybook': 7,
-      'Cypress': 6,
-      'Nx': 5,
 
-      // ...
-      // Add more skills as needed
-    };
-
-    return skillLevels[skill] || 0;
-  }
 
   downloadCV() {
     gsap.timeline()

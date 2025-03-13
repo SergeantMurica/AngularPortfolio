@@ -320,18 +320,16 @@ import {contact} from '../../../utils/resumeData';
       width: 45px;
       height: 45px;
       border-radius: 50%;
-      background: var(--color-shading);
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.3s ease;
-      color: var(--color-bodyText);
+      color: var(--color-main);
       position: relative;
       overflow: hidden;
     }
 
     .social-icon:hover {
-      background: var(--color-main);
       color: white;
       transform: translateY(-5px);
     }
@@ -532,7 +530,7 @@ export class ContactComponent implements AfterViewInit {
   ];
 
   // Social links
-  socialLinks = [...contact];
+  socialLinks = contact.contacts;
 
   // Element references for animations
   @ViewChild('contactTitle') contactTitle!: ElementRef;
@@ -629,8 +627,6 @@ export class ContactComponent implements AfterViewInit {
     const icon = event.currentTarget as HTMLElement;
     gsap.to(icon, {
       y: -5,
-      backgroundColor: 'var(--color-main)',
-      color: 'white',
       boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
       duration: 0.3,
       ease: 'power2.out'
@@ -641,8 +637,6 @@ export class ContactComponent implements AfterViewInit {
     const icon = event.currentTarget as HTMLElement;
     gsap.to(icon, {
       y: 0,
-      backgroundColor: 'var(--color-shading)',
-      color: 'var(--color-bodyText)',
       boxShadow: 'none',
       duration: 0.3,
       ease: 'power2.out'
