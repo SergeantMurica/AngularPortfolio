@@ -76,6 +76,7 @@ gsap.registerPlugin(ScrollTrigger);
 
               <div class="featured-read-more">
                 <span>Read Article</span>
+                <mat-icon>arrow_forward</mat-icon>
               </div>
             </div>
           </div>

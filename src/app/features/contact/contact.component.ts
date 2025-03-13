@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, inject } from '@angular/core';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,7 +25,6 @@ import {contact} from '../../../utils/resumeData';
     MatButtonModule,
     MatIconModule,
     MatSnackBarModule,
-    NgOptimizedImage,
   ],
   template: `
     <div class="contact-wrapper">
@@ -57,7 +56,7 @@ import {contact} from '../../../utils/resumeData';
                      (mouseenter)="highlightMethod(i)"
                      (mouseleave)="unhighlightMethod(i)">
                   <div class="method-icon">
-                    <img [ngSrc]="'/assets/svg/' + method.icon" [alt]="method.label" width="24" height="24">
+                    <mat-icon>{{method.icon}}</mat-icon>
                   </div>
                   <div class="method-content">
                     <h3>{{ method.label }}</h3>
@@ -75,7 +74,7 @@ import {contact} from '../../../utils/resumeData';
                      class="social-icon"
                      (mouseenter)="animateSocialIcon($event)"
                      (mouseleave)="resetSocialIcon($event)">
-                    <img [ngSrc]="'/assets/svg/' + social.icon" [alt]="social.key" width="24" height="24">
+                    <span [class]="social.icon" style="width: 2em; height: 2em;"></span>
                   </a>
                 </div>
               </div>
@@ -527,9 +526,9 @@ export class ContactComponent implements AfterViewInit {
 
   // Contact information
   contactMethods = [
-    { icon: 'email.svg', label: 'Email', value: 'castroalexander1995@outlook.com', link: 'mailto:castroalexander1995@outlook.com' },
-    { icon: 'phone.svg', label: 'Phone', value: '+1 (123) 456-7890', link: 'tel:+11234567890' },
-    { icon: 'location.svg', label: 'Location', value: 'San Francisco, CA', link: '#' }
+    { icon: 'email', label: 'Email', value: 'castroalexander1995@outlook.com', link: 'mailto:castroalexander1995@outlook.com' },
+    { icon: 'phone', label: 'Phone', value: '+1 (123) 456-7890', link: 'tel:+11234567890' },
+    { icon: 'location_on', label: 'Location', value: 'San Francisco, CA', link: '#' }
   ];
 
   // Social links

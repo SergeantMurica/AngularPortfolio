@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {contact} from '../../../../utils/resumeData';
@@ -7,7 +7,7 @@ import {contact} from '../../../../utils/resumeData';
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, NgOptimizedImage],
+  imports: [CommonModule, MatIconModule, MatButtonModule],
   template: `
     <footer class="bg-main/20 py-6">
       <div class="container mx-auto px-4">
@@ -26,7 +26,7 @@ import {contact} from '../../../../utils/resumeData';
                class="social-icon"
                (mouseenter)="animateSocialIcon($event)"
                (mouseleave)="resetSocialIcon($event)">
-              <img [ngSrc]="'/assets/svg/' + social.icon"  alt="{{social.key}}" width="24" height="24">
+              <span class="{{social.icon}}" style="width: 1.2em; height: 1.2em;"></span>
             </a>
           </div>
         </div>
@@ -51,4 +51,6 @@ export class FooterComponent {
   get currentYear() {
     return new Date().getFullYear();
   }
+
+  protected readonly contact = contact;
 }

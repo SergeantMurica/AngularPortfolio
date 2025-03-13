@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -16,8 +16,7 @@ import {ModeService} from '../../services/mode.service';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatMenuModule,
-    NgOptimizedImage
+    MatMenuModule
   ],
   template: `
     <div class="px-4 py-2 bg-background/40">
@@ -40,11 +39,11 @@ import {ModeService} from '../../services/mode.service';
 
         <div class="flex items-center gap-2">
           <button mat-icon-button (click)="toggleTheme()" aria-label="Toggle theme">
-            <img [ngSrc]="modeService.getCurrentMode() === 'dark' ? '/assets/svg/moon.svg' : '/assets/svg/sun.svg'"  alt="Theme" width="24" height="24"/>
+            <mat-icon class="align-center justify-center items-center" >{{ modeService.getCurrentMode() === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
           </button>
 
           <button mat-icon-button class="md:hidden" [matMenuTriggerFor]="menu" aria-label="Menu">
-            <img [ngSrc]="'/assets/svg/menu.svg'" alt="Menu" width="24" height="24"/>
+            <mat-icon>menu</mat-icon>
           </button>
 
           <mat-menu #menu="matMenu">

@@ -361,37 +361,37 @@ export const contact: Contact[] = [
     {
         key: "LinkedIn",
         url: "https://www.linkedin.com/in/alexanderscastro/",
-        icon: "linkedin.svg",
+        icon: "icon-[line-md--linkedin]",
     },
     {
         key: "Github",
         url: "https://github.com/SergeantMurica",
-        icon: "github.svg",
+        icon: "icon-[line-md--github-loop]",
     },
     {
         key: "LeetCode",
         url: "https://leetcode.com/u/SergeantMurica/",
-        icon: "leetcode.svg",
+        icon: "icon-[line-md--document-code]",
     },
     {
         key: "Facebook",
         url: "https://www.facebook.com/SergeantMurica",
-        icon: "facebook.svg",
+        icon: "icon-[line-md--facebook]",
     },
     {
         key: "YouTube",
         url: "https://www.youtube.com/c/SergeantMurica",
-        icon: "youtube.svg",
+        icon: "icon-[line-md--youtube]",
     },
     {
         key: "X",
         url: "https://twitter.com/SergeantMurica",
-        icon: "x-logo.svg",
+        icon: "icon-[line-md--twitter-x-alt]",
     },
     {
         key: "Instagram",
         url: "https://instagram.com/sergeantmurica",
-        icon: "instagram.svg",
+        icon: "icon-[line-md--instagram]",
     },
 ]
 
