@@ -525,8 +525,8 @@ export class ContactComponent implements AfterViewInit {
   // Contact information
   contactMethods = [
     { icon: 'email', label: 'Email', value: 'castroalexander1995@outlook.com', link: 'mailto:castroalexander1995@outlook.com' },
-    { icon: 'phone', label: 'Phone', value: '+1 (123) 456-7890', link: 'tel:+11234567890' },
-    { icon: 'location_on', label: 'Location', value: 'San Francisco, CA', link: '#' }
+    { icon: 'phone', label: 'Phone', value: 'Email me for my number', link: 'mailto:castroalexander1995@outlook.com' },
+    { icon: 'location_on', label: 'Location', value: 'Phoenix, AZ', link: '#' }
   ];
 
   // Social links
