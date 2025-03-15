@@ -43,15 +43,14 @@ export class VersionService {
       name: "Vue",
       url: "https://alexander-vue-portfolio.vercel.app/",
     },
-
-
-
-
     {
       id: "v7",
       name: "Next.js",
-      url: "https://preact-portfolio-vert.vercel.app/",
+      url: "https://alexanders-next-js-portfolio.vercel.app/",
     },
+
+
+
     {
       id: "v8",
       name: "HTML",
